@@ -1,6 +1,7 @@
 # cborr  
 hello this is cborr, aka borr c, aka syborr, aka sybau  
 please do not call it anything other than cborr or else you get the :onion:  
+also please do not use anything other than c99 or else you get the :onion: aswell  
 
 this project is licensed under the [WTFNMFPL](https://github.com/adversary-org/wtfnmf/tree/master)
 ```
