@@ -1,21 +1,26 @@
 # usage:
 #   make path        -> build & run example `examples/path/main.c`
 #   make win_path    -> build & run example `examples/path/main.c` for windows :onion:
-#   make             -> build src only (src/)
-#   make sillywindows-> build src only (src/) for windows :onion:
+#   make             -> build engine only
+#   make sillywindows-> build engine only for windows :onion:
 
 CC = clang
 WINCC = x86_64-w64-mingw32-gcc
 
-CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc
-LDFLAGS = -lglfw -lGL -lm -ldl -lpthread -lX11
+CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng
 
+LDFLAGS = -lglfw -lGL -lm -ldl -lpthread -lX11
 WIN_LDFLAGS = -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32
 
-SRC = $(wildcard src/*.c)
-ENGINE_OBJ = $(SRC:.c=.o)
-
 TARGET_DIR = build
+
+# source files
+SRC = $(wildcard src/*.c) include/glad/glad.c
+
+# object files (mirror folder structure in build/)
+ENGINE_OBJ = $(patsubst %.c,$(TARGET_DIR)/%.o,$(SRC))
+
+# find examples
 EXAMPLES = $(patsubst examples/%/main.c,%,$(wildcard examples/*/main.c))
 
 .PHONY: all src clean
@@ -26,8 +31,9 @@ all: src
 # build engine objects only
 src: $(ENGINE_OBJ)
 
-src/%.o: src/%.c
-	@mkdir -p $(TARGET_DIR)
+# generic rule for compiling C files
+$(TARGET_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # linux example: build & run
@@ -46,6 +52,7 @@ sillywindows: $(ENGINE_OBJ)
 	@mkdir -p $(TARGET_DIR)
 	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/engine.exe $(WIN_LDFLAGS)
 
+# clean build artifacts
 clean:
-	rm -rf $(ENGINE_OBJ) $(TARGET_DIR)
+	rm -rf $(TARGET_DIR)
 

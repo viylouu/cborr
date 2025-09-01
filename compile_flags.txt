@@ -1,0 +1,4 @@
+-Iinclude
+-Isrc
+-Ieng
+-std=c99
