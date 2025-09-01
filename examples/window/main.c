@@ -33,6 +33,7 @@ int main(void) {
         glfwSwapBuffers(window);
     }
 
+    glfwDestroyWindow(window);
     glfwTerminate();
 
     return 0;
