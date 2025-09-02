@@ -2,7 +2,11 @@
 
 void init(void) {}
 void update(void) {}
-void render(void) {}
+
+void render(void) {
+    cbClear(255,255,255);
+}
+
 void clean(void) {}
 
 int main(void) {

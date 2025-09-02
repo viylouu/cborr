@@ -1,6 +1,8 @@
 #ifndef ENG_H
 #define ENG_H
 
+#include "draw/draw.h"
+
 extern int actWidth;
 extern int actHeight;
 
