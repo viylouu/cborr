@@ -15,7 +15,7 @@ WIN_LDFLAGS = -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32
 TARGET_DIR = build
 
 # source files
-SRC = $(wildcard src/*.c) include/glad/glad.c
+SRC = $(wildcard src/*.c) $(shell find eng -name '*.c') $(shell find include -name '*.c')
 
 # object files (mirror folder structure in build/)
 ENGINE_OBJ = $(patsubst %.c,$(TARGET_DIR)/%.o,$(SRC))
