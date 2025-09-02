@@ -3,6 +3,7 @@
 
 void cbDrawSetup(void);
 void cbDrawUpdate(int width, int height);
+void cbDrawClean(void);
 
 // ------- funcs
 void IMPL_cbClear(float r, float g, float b, float a);

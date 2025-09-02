@@ -57,6 +57,8 @@ int cbMain(
 
     clean();
 
+    cbDrawClean();
+
     glfwDestroyWindow(window);
     glfwTerminate();
 
