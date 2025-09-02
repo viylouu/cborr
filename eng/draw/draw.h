@@ -1,7 +1,6 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-// chetgpt thx for the following 4 preprocs
 #define VA_NARGS_IMPL(_1,_2,_3,_4,N,...) N
 #define VA_NARGS(...) VA_NARGS_IMPL(__VA_ARGS__,4,3,2,1,0)
 
