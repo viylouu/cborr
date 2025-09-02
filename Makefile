@@ -1,8 +1,8 @@
 # usage:
 #   make path        -> build & run example `examples/path/main.c`
-#   make win_path    -> build & run example `examples/path/main.c` for windows :onion:
+#   make win_path    -> build & run example `examples/path/main.c` for windows
 #   make             -> build engine only
-#   make sillywindows-> build engine only for windows :onion:
+#   make sillywindows-> build engine only for windows
 
 CC = clang
 WINCC = x86_64-w64-mingw32-gcc
@@ -37,18 +37,18 @@ $(TARGET_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # linux example: build & run
-$(EXAMPLES): %: examples/%/main.c $(ENGINE_OBJ)
+$(EXAMPLES): %: examples/%/main.c src
 	@mkdir -p $(TARGET_DIR)
 	$(CC) $(CFLAGS) $(ENGINE_OBJ) $< -o $(TARGET_DIR)/$@ $(LDFLAGS)
 	./$(TARGET_DIR)/$@
 
 # windows example: build only
-win_%: examples/%/main.c $(ENGINE_OBJ)
+win_%: examples/%/main.c src
 	@mkdir -p $(TARGET_DIR)
 	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) $< -o $(TARGET_DIR)/$*.exe $(WIN_LDFLAGS)
 
 # windows engine build only
-sillywindows: $(ENGINE_OBJ)
+sillywindows: src
 	@mkdir -p $(TARGET_DIR)
 	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/engine.exe $(WIN_LDFLAGS)
 
