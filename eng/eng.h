@@ -6,7 +6,7 @@ extern int actHeight;
 
 typedef void (*func)(void);
 
-int goo(
+int cbMain(
     char* title,
     int width,
     int height,

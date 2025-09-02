@@ -9,13 +9,13 @@ GLFWwindow* window;
 int actWidth = 0;
 int actHeight = 0;
 
-void cbSize(GLFWwindow* window, int width, int height) {
+void cbCallbackSize(GLFWwindow* window, int width, int height) {
     glViewport(0,0,width,height);
     actWidth = width;
     actHeight = height;
 }
 
-int goo(
+int cbMain(
     char* title,  int width, int height,
     func init, func update, func render, func clean
 ) {
@@ -29,7 +29,7 @@ int goo(
     if (!window) { printf("failed to create window!\n"); return 1; }
 
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, cbSize);
+    glfwSetFramebufferSizeCallback(window, cbCallbackSize);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { printf("failed to load opengl!\n"); return 1; }
 
