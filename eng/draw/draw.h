@@ -1,6 +1,8 @@
 #ifndef DRAW_H
 #define DRAW_H
 
+void cbDrawSetup(int width, int height);
+
 // ------- funcs
 void IMPL_cbClear(float r, float g, float b, float a);
 

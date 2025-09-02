@@ -2,6 +2,7 @@
 #define ENG_H
 
 #include "draw/draw.h"
+#include "mat/mat.h"
 
 extern int actWidth;
 extern int actHeight;

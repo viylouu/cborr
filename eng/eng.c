@@ -38,6 +38,8 @@ int cbMain(
     actWidth = width;
     actHeight = height;
 
+    cbDrawSetup(width, height);
+
     init();
 
     while(!glfwWindowShouldClose(window)) {
