@@ -4,7 +4,7 @@ void init(void) {}
 void update(void) {}
 
 void render(void) {
-    cbClear(255,255,255);
+    cbFClear(.2f, .3f, .4f);
 }
 
 void clean(void) {}
