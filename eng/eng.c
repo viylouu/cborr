@@ -1,4 +1,5 @@
 #include "eng.h"
+#include "draw/draw.h"
 
 #include <stdio.h>
 #include <glad/glad.h>
@@ -13,6 +14,7 @@ void cbCallbackSize(GLFWwindow* window, int width, int height) {
     glViewport(0,0,width,height);
     actWidth = width;
     actHeight = height;
+    cbDrawUpdate(width,height);
 }
 
 int cbMain(
@@ -34,11 +36,13 @@ int cbMain(
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { printf("failed to load opengl!\n"); return 1; }
 
     glViewport(0,0,width,height);
+    
+    glfwSwapInterval(1);
 
     actWidth = width;
     actHeight = height;
 
-    cbDrawSetup(width, height);
+    cbDrawSetup();
 
     init();
 

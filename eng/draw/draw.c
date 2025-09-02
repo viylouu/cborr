@@ -17,7 +17,11 @@ struct {
 
 mat4 proj;
 
-void cbDrawSetup(int width, int height) {
+void cbDrawSetup(void) {
+    
+}
+
+void cbDrawUpdate(int width, int height) {
     cbMatOrtho(&proj, 0,width,height,0, -1000,1000);
 }
 
