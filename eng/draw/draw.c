@@ -18,6 +18,11 @@ struct {
 
 mat4 proj;
 
+float fr;
+float fg;
+float fb;
+float fa;
+
 void cbDrawSetup(void) {
     bufs.rect.prog = loadProgram("data/eng/rect.vert", "data/eng/rect.frag");
     glGenVertexArrays(1, &bufs.rect.vao);
@@ -38,19 +43,21 @@ void cbDrawClean(void) {
 }
 
 
+void IMPL_cbFill(float r, float g, float b, float a) { fr = r; fg = g; fb = b; fa = a; }
+
 void IMPL_cbClear(float r, float g, float b, float a) {
     glClearColor(r,g,b,a);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void IMPL_cbRect(float x, float y, float w, float h, float r, float g, float b, float a) {
+void IMPL_cbRect(float x, float y, float w, float h) {
     glUseProgram(bufs.rect.prog);
     glBindVertexArray(bufs.rect.vao);
 
     glUniformMatrix4fv(bufs.rect.loc_proj, 1,0, proj);
     glUniform2f(bufs.rect.loc_pos, x,y);
     glUniform2f(bufs.rect.loc_size, w,h);
-    glUniform4f(bufs.rect.loc_col, r,g,b,a);
+    glUniform4f(bufs.rect.loc_col, fr,fg,fb,fa);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
 

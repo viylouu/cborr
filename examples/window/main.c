@@ -1,3 +1,4 @@
+#include "draw/draw.h"
 #include <eng.h>
 #include <GLFW/glfw3.h>
 
@@ -6,6 +7,9 @@ void update(void) { }
 
 void render(void) {
     cbFClear(.2f, .3f, .4f);
+
+    cbFill(255,0,0);
+    cbFRect(0,0,64,64);
 }
 
 void clean(void) {}
