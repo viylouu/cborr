@@ -3,7 +3,7 @@ CC = clang
 WINCC = x86_64-w64-mingw32-gcc
 
 # common flags
-CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng
+CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng -DGLFW_INCLUDE_NONE
 
 # windows-specific include & lib paths
 WIN_INCLUDE = -I$(HOME)/mingw-w64-glfw/include

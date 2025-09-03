@@ -2,3 +2,4 @@
 -Isrc
 -Ieng
 -std=c99
+-DGLFW_INCLUDE_NONE
