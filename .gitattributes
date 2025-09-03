@@ -1,6 +1,11 @@
-/include/glad/* linguist-vendored
-/include/KHR/* linguist-vendored
-/include/stb/* linguist-vendored
+* text=auto
 
-*.vert text diff=glsl
-*.frag text diff=glsl
+glad.c text linguist-vendored
+glad.h text linguist-vendored
+stbimage.h text linguist-vendored
+khrplatform.h text linguist-vendored
+
+*.c text linguist-language=C
+*.h text linguist-language=C
+*.vert text diff=GLSL
+*.frag text diff=GLSL
