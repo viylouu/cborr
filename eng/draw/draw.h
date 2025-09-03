@@ -50,8 +50,8 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
 
 #define SELECT_FTEX(...) CAT(ftex_, VA_NARGS(__VA_ARGS__))
 #define cbFTex(...) SELECT_FTEX(__VA_ARGS__)(__VA_ARGS__)
-#define ftex_3(tex,x,y) IMPL_cbTex(tex,x,y,(*tex).width,(*tex).height,0,0,(*tex).width,(*tex).height)
-#define ftex_5(tex,x,y,w,h) IMPL_cbTex(tex,x,y,w,h,0,0,(*tex).width,(*tex).height)
+#define ftex_3(tex,x,y) IMPL_cbTex(tex,x,y,tex->width,tex->height,0,0,tex->width,tex->height)
+#define ftex_5(tex,x,y,w,h) IMPL_cbTex(tex,x,y,w,h,0,0,tex->width,tex->height)
 #define ftex_7(tex,x,y,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,sw,sh,sx,sy,sw,sh)
 #define ftex_9(tex,x,y,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,w,h,sx,sy,sw,sh)
 
