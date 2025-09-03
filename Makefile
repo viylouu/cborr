@@ -1,17 +1,17 @@
-# usage:
-#   make path        -> build & run example `examples/path/main.c`
-#   make win_path    -> build & run example `examples/path/main.c` for windows
-#   make             -> build engine only
-#   make sillywindows-> build engine only for windows
-
+# compilers
 CC = clang
 WINCC = x86_64-w64-mingw32-gcc
 
+# flags
 CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng
+WIN_INCLUDE = -IC:/msys64/mingw64/include
+WINCCFLAGS = $(CFLAGS) $(WIN_INCLUDE)
 
+# linker flags
 LDFLAGS = -lglfw -lGL -lm -ldl -lpthread -lX11
-WIN_LDFLAGS = -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32
+WIN_LDFLAGS = -lglfw -lopengl32 -lgdi32 -luser32 -lkernel32
 
+# target dir
 TARGET_DIR = build
 
 # source files
@@ -45,12 +45,12 @@ $(EXAMPLES): %: examples/%/main.c src
 # windows example: build only
 win_%: examples/%/main.c src
 	@mkdir -p $(TARGET_DIR)
-	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) $< -o $(TARGET_DIR)/$*.exe $(WIN_LDFLAGS)
+	$(WINCC) $(WINCCFLAGS) $(ENGINE_OBJ) $< -o $(TARGET_DIR)/$*.exe $(WIN_LDFLAGS)
 
 # windows engine build only
 sillywindows: src
 	@mkdir -p $(TARGET_DIR)
-	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/engine.exe $(WIN_LDFLAGS)
+	$(WINCC) $(WINCCFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/engine.exe $(WIN_LDFLAGS)
 
 # clean build artifacts
 clean:
