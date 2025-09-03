@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-uint32_t compileProgram(uint32_t* shaders, uint32_t amount) {
+uint32_t cbCompileProgram(uint32_t* shaders, uint32_t amount) {
     uint32_t prog = glCreateProgram();
 
     for (int i = 0; i < amount; ++i)
@@ -31,7 +31,7 @@ uint32_t compileProgram(uint32_t* shaders, uint32_t amount) {
     return prog;
 }
 
-uint32_t loadShaderFromSrc(uint32_t type, const char** src) {
+uint32_t cbLoadShaderFromSrc(uint32_t type, const char** src) {
     uint32_t shad = glCreateShader(type);
     glShaderSource(shad, 1, src, 0);
     glCompileShader(shad);
@@ -55,12 +55,12 @@ uint32_t loadShaderFromSrc(uint32_t type, const char** src) {
     return shad;
 }
 
-uint32_t loadProgramFromSrc(const char** vertSource, const char** fragSource) {
-    uint32_t vert = loadShaderFromSrc(GL_VERTEX_SHADER, vertSource);
-    uint32_t frag = loadShaderFromSrc(GL_FRAGMENT_SHADER, fragSource);
+uint32_t cbLoadProgramFromSrc(const char** vertSource, const char** fragSource) {
+    uint32_t vert = cbLoadShaderFromSrc(GL_VERTEX_SHADER, vertSource);
+    uint32_t frag = cbLoadShaderFromSrc(GL_FRAGMENT_SHADER, fragSource);
 
     uint32_t shads[2] = { vert, frag };
-    uint32_t prog = compileProgram(shads, 2);
+    uint32_t prog = cbCompileProgram(shads, 2);
 
     glDeleteShader(vert);
     glDeleteShader(frag);
@@ -91,7 +91,7 @@ char* loadFile(const char* path, size_t* out_size) {
     return buffer;
 }
 
-uint32_t loadShader(uint32_t type, const char* path) {
+uint32_t cbLoadShader(uint32_t type, const char* path) {
     char* buf = loadFile(path, 0);
     if (!buf) {
         printf("failed to read shader at \"%s\"\n", path);
@@ -100,21 +100,21 @@ uint32_t loadShader(uint32_t type, const char* path) {
 
     const char* src = buf;
 
-    uint32_t shad = loadShaderFromSrc(type, &src);
+    uint32_t shad = cbLoadShaderFromSrc(type, &src);
 
     free(buf);
 
     return shad;
 }
 
-uint32_t loadProgram(const char* vertPath, const char* fragPath) {
+uint32_t cbLoadProgram(const char* vertPath, const char* fragPath) {
     char* vBuf = loadFile(vertPath, 0);
     char* fBuf = loadFile(fragPath, 0);
 
     const char* vSrc = vBuf;
     const char* fSrc = fBuf;
 
-    uint32_t prog = loadProgramFromSrc(&vSrc, &fSrc);
+    uint32_t prog = cbLoadProgramFromSrc(&vSrc, &fSrc);
 
     free(vBuf);
     free(fBuf);
