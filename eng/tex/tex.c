@@ -11,6 +11,7 @@
 
 void cbUnloadTexture(CBtexture* tex) {
     glDeleteTextures(1, &(*tex).id);
+    free(tex);
 }
 
 CBtexture* cbLoadFromData(uint8_t* data, size_t size) {
