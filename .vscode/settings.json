@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "stdbool.h": "c",
-        "eng.h": "c",
-        "phys.h": "c"
-    }
-}
