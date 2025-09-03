@@ -2,16 +2,19 @@
 CC = clang
 WINCC = x86_64-w64-mingw32-gcc
 
-# flags
+# common flags
 CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng
-WIN_INCLUDE = -IC:/msys64/mingw64/include
-WINCCFLAGS = $(CFLAGS) $(WIN_INCLUDE)
 
-# linker flags
+# windows-specific include & lib paths
+WIN_INCLUDE = -I$(HOME)/mingw-w64-glfw/include
+WIN_LIB     = -L$(HOME)/mingw-w64-glfw/lib
+WINCCFLAGS  = $(CFLAGS) $(WIN_INCLUDE) -D_WIN32 -DNDEBUG
+WIN_LDFLAGS = $(WIN_LIB) -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32
+
+# linux linker flags
 LDFLAGS = -lglfw -lGL -lm -ldl -lpthread -lX11
-WIN_LDFLAGS = -lglfw -lopengl32 -lgdi32 -luser32 -lkernel32
 
-# target dir
+# target directory
 TARGET_DIR = build
 
 # source files
@@ -20,12 +23,12 @@ SRC = $(wildcard src/*.c) $(shell find eng -name '*.c') $(shell find include -na
 # object files (mirror folder structure in build/)
 ENGINE_OBJ = $(patsubst %.c,$(TARGET_DIR)/%.o,$(SRC))
 
-# find examples
+# examples
 EXAMPLES = $(patsubst examples/%/main.c,%,$(wildcard examples/*/main.c))
 
 .PHONY: all src clean
 
-# default build: engine only
+# default: build engine only
 all: src
 
 # build engine objects only
