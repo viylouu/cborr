@@ -1,17 +1,20 @@
-# usage:
-#   make path        -> build & run example `examples/path/main.c`
-#   make win_path    -> build & run example `examples/path/main.c` for windows
-#   make             -> build engine only
-#   make sillywindows-> build engine only for windows
-
+# compilers
 CC = clang
 WINCC = x86_64-w64-mingw32-gcc
 
-CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng
+# common flags
+CFLAGS = -Wall -Wextra -std=c99 -O2 -Isrc -Iinclude -Ieng -DGLFW_INCLUDE_NONE
 
+# windows-specific include & lib paths
+WIN_INCLUDE = -I$(HOME)/mingw-w64-glfw/include
+WIN_LIB     = -L$(HOME)/mingw-w64-glfw/lib
+WINCCFLAGS  = $(CFLAGS) $(WIN_INCLUDE) -D_WIN32 -DNDEBUG
+WIN_LDFLAGS = $(WIN_LIB) -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32
+
+# linux linker flags
 LDFLAGS = -lglfw -lGL -lm -ldl -lpthread -lX11
-WIN_LDFLAGS = -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32
 
+# target directory
 TARGET_DIR = build
 
 # source files
@@ -20,12 +23,12 @@ SRC = $(wildcard src/*.c) $(shell find eng -name '*.c') $(shell find include -na
 # object files (mirror folder structure in build/)
 ENGINE_OBJ = $(patsubst %.c,$(TARGET_DIR)/%.o,$(SRC))
 
-# find examples
+# examples
 EXAMPLES = $(patsubst examples/%/main.c,%,$(wildcard examples/*/main.c))
 
 .PHONY: all src clean
 
-# default build: engine only
+# default: build engine only
 all: src
 
 # build engine objects only
@@ -45,12 +48,12 @@ $(EXAMPLES): %: examples/%/main.c src
 # windows example: build only
 win_%: examples/%/main.c src
 	@mkdir -p $(TARGET_DIR)
-	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) $< -o $(TARGET_DIR)/$*.exe $(WIN_LDFLAGS)
+	$(WINCC) $(WINCCFLAGS) $(ENGINE_OBJ) $< -o $(TARGET_DIR)/$*.exe $(WIN_LDFLAGS)
 
 # windows engine build only
 sillywindows: src
 	@mkdir -p $(TARGET_DIR)
-	$(WINCC) $(CFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/engine.exe $(WIN_LDFLAGS)
+	$(WINCC) $(WINCCFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/engine.exe $(WIN_LDFLAGS)
 
 # clean build artifacts
 clean:
