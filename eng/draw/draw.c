@@ -105,8 +105,8 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
     glUniformMatrix4fv(bufs.tex.loc_proj, 1,0, proj);
     glUniform2f(bufs.tex.loc_pos, x,y);
     glUniform2f(bufs.tex.loc_size, w,h);
-    glUniform2f(bufs.tex.loc_samp_pos, sx,sy);
-    glUniform2f(bufs.tex.loc_samp_size, sw,sh);
+    glUniform2f(bufs.tex.loc_samp_pos, sx/(float)tex->width,sy/(float)tex->height);
+    glUniform2f(bufs.tex.loc_samp_size, sw/(float)tex->width,sh/(float)tex->height);
     glUniform4f(bufs.tex.loc_tint, fr,fg,fb,fa);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
