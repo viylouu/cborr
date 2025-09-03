@@ -14,5 +14,5 @@ out vec2 uv;
 
 void main() {
     gl_Position = proj * vec4(verts[gl_VertexID] * size + pos, 0,1);
-    uv = vec2(0,1) - verts[gl_VertexID];
+    uv = verts[gl_VertexID];
 }
