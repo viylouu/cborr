@@ -25,4 +25,8 @@ void cbMatIdentity(mat4* mat);
 void cbMatTranslate(mat4* mat, float x, float y, float z);
 void cbMatScale(mat4* mat, float x, float y, float z);
 
+void cbMatRotateX(mat4* mat, float ang);
+void cbMatRotateY(mat4* mat, float ang);
+void cbMatRotateZ(mat4* mat, float ang);
+
 #endif

@@ -1,5 +1,7 @@
 #include "mat.h"
+
 #include <string.h>
+#include <math.h>
 
 void cbMatMake(
     mat4* mat,
@@ -80,6 +82,42 @@ void cbMatScale(
         x, 0, 0, 0,
         0, y, 0, 0,
         0, 0, z, 0,
+        0, 0, 0, 1
+        );
+}
+
+void cbMatRotateX(mat4* mat, float ang) {
+    float c = cosf(ang);
+    float s = sinf(ang);
+
+    cbMatMake(mat,
+        1, 0, 0, 0,
+        0, c,-s, 0,
+        0, s, c, 0,
+        0, 0, 0, 1
+        );
+}
+
+void cbMatRotateY(mat4* mat, float ang) {
+    float c = cosf(ang);
+    float s = sinf(ang);
+
+    cbMatMake(mat,
+        c, 0, s, 0,
+        0, 1, 0, 0,
+       -s, 0, c, 0,
+        0, 0, 0, 1
+        );
+}
+
+void cbMatRotateZ(mat4* mat, float ang) {
+    float c = cosf(ang);
+    float s = sinf(ang);
+
+    cbMatMake(mat,
+        c,-s, 0, 0,
+        s, c, 0, 0,
+        0, 0, 1, 0,
         0, 0, 0, 1
         );
 }

@@ -11,6 +11,7 @@ void cbResetTransform(void);
 // ------- funcs
 void IMPL_cbTranslate(float x, float y, float z);
 void IMPL_cbScale(float x, float y, float z);
+void IMPL_cbRotate(float x, float y, float z);
 
 void IMPL_cbTint(float r, float g, float b, float a);
 void IMPL_cbClear(float r, float g, float b, float a);
@@ -34,6 +35,11 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, flo
 #define cbScale(...) SELECT_SCALE(__VA_ARGS__)(__VA_ARGS__)
 #define scale_2(x,y) IMPL_cbScale(x,y,0)
 #define scale_3(x,y,z) IMPL_cbScale(x,y,z)
+
+#define SELECT_ROTATE(...) CAT(rotate_, VA_NARGS(__VA_ARGS__))
+#define cbRotate(...) SELECT_ROTATE(__VA_ARGS__)(__VA_ARGS__)
+#define rotate_1(ang) IMPL_cbRotate(0,0,ang)
+#define rotate_3(x,y,z) IMPL_cbRotate(x,y,z)
 
 #define SELECT_FCLEAR(...) CAT(fclear_, VA_NARGS(__VA_ARGS__))
 #define cbFClear(...) SELECT_FCLEAR(__VA_ARGS__)(__VA_ARGS__)

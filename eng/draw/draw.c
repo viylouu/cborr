@@ -92,6 +92,18 @@ void IMPL_cbScale(float x, float y, float z) {
     cbMatMultiply(&trans, trans, temp);
 }
 
+void IMPL_cbRotate(float x, float y, float z) {
+    mat4 rx, ry, rz;
+    cbMatRotateX(&rx, x);
+    cbMatRotateY(&ry, y);
+    cbMatRotateZ(&rz, z);
+
+    mat4 temp;
+    cbMatMultiply(&temp, ry, rx);
+    cbMatMultiply(&temp, rz, temp);
+    cbMatMultiply(&trans, trans, temp);
+}
+
 
 void IMPL_cbTint(float r, float g, float b, float a) { fr = r; fg = g; fb = b; fa = a; }
 
