@@ -15,7 +15,7 @@ void render(void) {
     cbFClear(.2f, .3f, .4f);
 
     cbTint(255,0,0);
-    cbFTex(tex, 0,0,64,64);
+    cbTex(tex, 0,0,64,64);
 }
 
 void clean(void) {
