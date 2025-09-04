@@ -14,6 +14,7 @@ struct {
         int32_t  loc_size;
         int32_t  loc_col;
         int32_t  loc_proj;
+        int32_t  loc_trans;
     } rect;
 
     struct {
@@ -26,10 +27,12 @@ struct {
         int32_t  loc_tint;
         int32_t  loc_proj;
         int32_t  loc_tex;
+        int32_t  loc_trans;
     } tex;
 } bufs;
 
 mat4 proj;
+mat4 trans;
 
 float fr;
 float fg;
@@ -40,21 +43,23 @@ void cbDrawSetup(void) {
     bufs.rect.prog = cbLoadProgram("data/eng/rect.vert", "data/eng/rect.frag");
     glGenVertexArrays(1, &bufs.rect.vao);
 
-    bufs.rect.loc_pos  = glGetUniformLocation(bufs.rect.prog, "pos");
-    bufs.rect.loc_size = glGetUniformLocation(bufs.rect.prog, "size");
-    bufs.rect.loc_col  = glGetUniformLocation(bufs.rect.prog, "col");
-    bufs.rect.loc_proj = glGetUniformLocation(bufs.rect.prog, "proj");
+    bufs.rect.loc_pos   = glGetUniformLocation(bufs.rect.prog, "pos");
+    bufs.rect.loc_size  = glGetUniformLocation(bufs.rect.prog, "size");
+    bufs.rect.loc_col   = glGetUniformLocation(bufs.rect.prog, "col");
+    bufs.rect.loc_proj  = glGetUniformLocation(bufs.rect.prog, "proj");
+    bufs.rect.loc_trans = glGetUniformLocation(bufs.rect.prog, "trans");
 
     bufs.tex.prog = cbLoadProgram("data/eng/tex.vert", "data/eng/tex.frag");
     glGenVertexArrays(1, &bufs.tex.vao);
 
-    bufs.tex.loc_pos  = glGetUniformLocation(bufs.tex.prog, "pos");
-    bufs.tex.loc_size = glGetUniformLocation(bufs.tex.prog, "size");
+    bufs.tex.loc_pos   = glGetUniformLocation(bufs.tex.prog, "pos");
+    bufs.tex.loc_size  = glGetUniformLocation(bufs.tex.prog, "size");
     bufs.tex.loc_samp_pos  = glGetUniformLocation(bufs.tex.prog, "samp_pos");
     bufs.tex.loc_samp_size = glGetUniformLocation(bufs.tex.prog, "samp_size");
-    bufs.tex.loc_tint = glGetUniformLocation(bufs.tex.prog, "tint");
-    bufs.tex.loc_proj = glGetUniformLocation(bufs.tex.prog, "proj");
-    bufs.tex.loc_tex  = glGetUniformLocation(bufs.tex.prog, "tex");
+    bufs.tex.loc_tint  = glGetUniformLocation(bufs.tex.prog, "tint");
+    bufs.tex.loc_proj  = glGetUniformLocation(bufs.tex.prog, "proj");
+    bufs.tex.loc_tex   = glGetUniformLocation(bufs.tex.prog, "tex");
+    bufs.tex.loc_trans = glGetUniformLocation(bufs.tex.prog, "trans");
 }
 
 void cbDrawUpdate(int width, int height) {
@@ -70,6 +75,24 @@ void cbDrawClean(void) {
 }
 
 
+void cbResetTransform(void) {
+    cbMatIdentity(&trans);
+}
+
+
+void IMPL_cbTranslate(float x, float y, float z) {
+    mat4 temp;
+    cbMatTranslate(&temp, x,y,z);
+    cbMatMultiply(&trans, trans, temp);
+}
+
+void IMPL_cbScale(float x, float y, float z) {
+    mat4 temp;
+    cbMatScale(&temp, x,y,z);
+    cbMatMultiply(&trans, trans, temp);
+}
+
+
 void IMPL_cbTint(float r, float g, float b, float a) { fr = r; fg = g; fb = b; fa = a; }
 
 void IMPL_cbClear(float r, float g, float b, float a) {
@@ -77,12 +100,13 @@ void IMPL_cbClear(float r, float g, float b, float a) {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void IMPL_cbRect(float x, float y, float w, float h) {
+void IMPL_cbRect(float x, float y, float z, float w, float h) {
     glUseProgram(bufs.rect.prog);
     glBindVertexArray(bufs.rect.vao);
 
     glUniformMatrix4fv(bufs.rect.loc_proj, 1,0, proj);
-    glUniform2f(bufs.rect.loc_pos, x,y);
+    glUniformMatrix4fv(bufs.rect.loc_trans, 1,0, trans);
+    glUniform3f(bufs.rect.loc_pos, x,y,z);
     glUniform2f(bufs.rect.loc_size, w,h);
     glUniform4f(bufs.rect.loc_col, fr,fg,fb,fa);
 
@@ -92,7 +116,7 @@ void IMPL_cbRect(float x, float y, float w, float h) {
     glUseProgram(0);
 }
 
-void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, float sy, float sw, float sh) {
+void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, float sx, float sy, float sw, float sh) {
     if (!tex) { printf("texture is null!\n"); return; }
 
     glUseProgram(bufs.tex.prog);
@@ -103,7 +127,8 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
     glUniform1i(bufs.tex.loc_tex, 0);
 
     glUniformMatrix4fv(bufs.tex.loc_proj, 1,0, proj);
-    glUniform2f(bufs.tex.loc_pos, x,y);
+    glUniformMatrix4fv(bufs.tex.loc_trans, 1,0, trans);
+    glUniform3f(bufs.tex.loc_pos, x,y,z);
     glUniform2f(bufs.tex.loc_size, w,h);
     glUniform2f(bufs.tex.loc_samp_pos, sx/(float)tex->width,sy/(float)tex->height);
     glUniform2f(bufs.tex.loc_samp_size, sw/(float)tex->width,sh/(float)tex->height);

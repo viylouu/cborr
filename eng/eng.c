@@ -50,6 +50,8 @@ int cbMain(
         glfwPollEvents();
 
         update();
+
+        cbResetTransform();
         render();
 
         glfwSwapBuffers(window);

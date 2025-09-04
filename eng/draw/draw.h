@@ -6,12 +6,16 @@
 void cbDrawSetup(void);
 void cbDrawUpdate(int width, int height);
 void cbDrawClean(void);
+void cbResetTransform(void);
 
 // ------- funcs
+void IMPL_cbTranslate(float x, float y, float z);
+void IMPL_cbScale(float x, float y, float z);
+
 void IMPL_cbTint(float r, float g, float b, float a);
 void IMPL_cbClear(float r, float g, float b, float a);
-void IMPL_cbRect(float x, float y, float w, float h);
-void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, float sy, float sw, float sh);
+void IMPL_cbRect(float x, float y, float z, float w, float h);
+void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, float sx, float sy, float sw, float sh);
 
 // ------- function overload helpers
 #define VA_NARGS_IMPL(_1,_2,_3,_4,_5,_6,_7,_8,_9,N,...) N
@@ -21,6 +25,16 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
 #define CAT(a,b) CAT2(a,b)
 
 // ------- function overloads
+#define SELECT_TRANSLATE(...) CAT(translate_, VA_NARGS(__VA_ARGS__))
+#define cbTranslate(...) SELECT_TRANSLATE(__VA_ARGS__)(__VA_ARGS__)
+#define translate_2(x,y) IMPL_cbTranslate(x,y,0)
+#define translate_3(x,y,z) IMPL_cbTranslate(x,y,z)
+
+#define SELECT_SCALE(...) CAT(scale_, VA_NARGS(__VA_ARGS__))
+#define cbScale(...) SELECT_SCALE(__VA_ARGS__)(__VA_ARGS__)
+#define scale_2(x,y) IMPL_cbScale(x,y,0)
+#define scale_3(x,y,z) IMPL_cbScale(x,y,z)
+
 #define SELECT_FCLEAR(...) CAT(fclear_, VA_NARGS(__VA_ARGS__))
 #define cbFClear(...) SELECT_FCLEAR(__VA_ARGS__)(__VA_ARGS__)
 #define fclear_1(r) IMPL_cbClear(r,r,r,1.f)
@@ -45,16 +59,21 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
 #define tint_3(r,g,b) IMPL_cbTint(r/255.f,g/255.f,b/255.f,1.f)
 #define tint_4(r,g,b,a) IMPL_cbTint(r/255.f,g/255.f,b/255.f,a/255.f)
 
-#define cbFRect(x,y,w,h) IMPL_cbRect(x,y,w,h)
-#define cbRect(x,y,w,h) IMPL_cbRect(x,y,w,h)
+#define SELECT_RECT(...) CAT(rect_, VA_NARGS(__VA_ARGS__))
+#define cbRect(...) SELECT_RECT(__VA_ARGS__)(__VA_ARGS__)
+#define rect_4(x,y,w,h) IMPL_cbRect(x,y,0,w,h)
+#define rect_5(x,y,z,w,h) IMPL_cbRect(x,y,z,w,h)
 
-#define SELECT_FTEX(...) CAT(ftex_, VA_NARGS(__VA_ARGS__))
-#define cbFTex(...) SELECT_FTEX(__VA_ARGS__)(__VA_ARGS__)
-#define ftex_3(tex,x,y) IMPL_cbTex(tex,x,y,tex->width,tex->height,0,0,tex->width,tex->height)
-#define ftex_5(tex,x,y,w,h) IMPL_cbTex(tex,x,y,w,h,0,0,tex->width,tex->height)
-#define ftex_7(tex,x,y,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,sw,sh,sx,sy,sw,sh)
-#define ftex_9(tex,x,y,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,w,h,sx,sy,sw,sh)
+#define SELECT_TEX(...) CAT(tex_, VA_NARGS(__VA_ARGS__))
+#define cbTex(...) SELECT_TEX(__VA_ARGS__)(__VA_ARGS__)
+#define tex_3(tex,x,y) IMPL_cbTex(tex,x,y,0,tex->width,tex->height,0,0,tex->width,tex->height)
+#define tex_5(tex,x,y,w,h) IMPL_cbTex(tex,x,y,0,w,h,0,0,tex->width,tex->height)
+#define tex_7(tex,x,y,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,0,sw,sh,sx,sy,sw,sh)
+#define tex_9(tex,x,y,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,0,w,h,sx,sy,sw,sh)
+#define tex_4(tex,x,y,z) IMPL_cbTex(tex,x,y,z,tex->width,tex->height,0,0,tex->width,tex->height)
+#define tex_6(tex,x,y,z,w,h) IMPL_cbTex(tex,x,y,z,w,h,0,0,tex->width,tex->height)
+#define tex_8(tex,x,y,z,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,z,sw,sh,sx,sy,sw,sh)
+#define tex_10(tex,x,y,z,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,z,w,h,sx,sy,sw,sh)
 
-#define cbTex(...) cbFTex(__VA_ARGS__)
 
 #endif

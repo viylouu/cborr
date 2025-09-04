@@ -26,21 +26,60 @@ void cbMatIdentity(mat4* mat) {
         );
 }
 
-void cbMatOrtho(mat4* mat, 
-                float left, float right,
-                float bottom, float top,
-                float near, float far) {
+void cbMatMultiply(mat4* out, const mat4 a, const mat4 b) {
+    float result[16];
+
+    for (int row = 0; row < 4; row++) {
+        for (int col = 0; col < 4; col++) {
+            result[row*4 + col] =
+                a[row*4 + 0] * b[0*4 + col] +
+                a[row*4 + 1] * b[1*4 + col] +
+                a[row*4 + 2] * b[2*4 + col] +
+                a[row*4 + 3] * b[3*4 + col];
+        }
+    }
+
+    memcpy(*out, result, sizeof(result));
+}
+
+void cbMatOrtho(
+    mat4* mat, 
+    float left, float right,
+    float bottom, float top,
+    float near, float far
+) {
     float rl = right - left;
     float tb = top - bottom;
     float fn = far - near;
 
     cbMatMake(mat, 
-        2/rl, 0,0,0,
-        0, 2/tb, 0,0,
-        0,0, -2/fn, 0,
-        -(right+left) / rl,
-        -(top+bottom) / tb,
-        -(far+near) / fn,
-        1
+        2/rl, 0, 0, 0,
+        0, 2/tb, 0, 0,
+        0, 0,-2/fn, 0,
+        -(right+left) / rl, -(top+bottom) / tb, -(far+near) / fn, 1
+        );
+}
+
+void cbMatTranslate(
+    mat4* mat,
+    float x, float y, float z
+) {
+    cbMatMake(mat,
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        x, y, z, 1
+        );
+}
+
+void cbMatScale(
+    mat4* mat,
+    float x, float y, float z
+) {
+    cbMatMake(mat,
+        x, 0, 0, 0,
+        0, y, 0, 0,
+        0, 0, z, 0,
+        0, 0, 0, 1
         );
 }
