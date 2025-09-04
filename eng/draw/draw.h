@@ -3,6 +3,8 @@
 
 #include "tex/tex.h"
 
+extern float fov;
+
 void cbDrawSetup(void);
 void cbDrawUpdate(int width, int height);
 void cbDrawClean(void);
@@ -15,8 +17,8 @@ void IMPL_cbRotate(float x, float y, float z);
 
 void IMPL_cbTint(float r, float g, float b, float a);
 void IMPL_cbClear(float r, float g, float b, float a);
-void IMPL_cbRect(float x, float y, float z, float w, float h);
-void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, float sx, float sy, float sw, float sh);
+void IMPL_cbRect(float x, float y, float w, float h);
+void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, float sy, float sw, float sh);
 
 // ------- function overload helpers
 #define VA_NARGS_IMPL(_1,_2,_3,_4,_5,_6,_7,_8,_9,N,...) N
@@ -67,8 +69,7 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, flo
 
 #define SELECT_RECT(...) CAT(rect_, VA_NARGS(__VA_ARGS__))
 #define cbRect(...) SELECT_RECT(__VA_ARGS__)(__VA_ARGS__)
-#define rect_4(x,y,w,h) IMPL_cbRect(x,y,0,w,h)
-#define rect_5(x,y,z,w,h) IMPL_cbRect(x,y,z,w,h)
+#define rect_4(x,y,w,h) IMPL_cbRect(x,y,w,h)
 
 #define SELECT_TEX(...) CAT(tex_, VA_NARGS(__VA_ARGS__))
 #define cbTex(...) SELECT_TEX(__VA_ARGS__)(__VA_ARGS__)
@@ -76,10 +77,6 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, flo
 #define tex_5(tex,x,y,w,h) IMPL_cbTex(tex,x,y,0,w,h,0,0,tex->width,tex->height)
 #define tex_7(tex,x,y,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,0,sw,sh,sx,sy,sw,sh)
 #define tex_9(tex,x,y,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,0,w,h,sx,sy,sw,sh)
-#define tex_4(tex,x,y,z) IMPL_cbTex(tex,x,y,z,tex->width,tex->height,0,0,tex->width,tex->height)
-#define tex_6(tex,x,y,z,w,h) IMPL_cbTex(tex,x,y,z,w,h,0,0,tex->width,tex->height)
-#define tex_8(tex,x,y,z,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,z,sw,sh,sx,sy,sw,sh)
-#define tex_10(tex,x,y,z,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,z,w,h,sx,sy,sw,sh)
 
 
 #endif

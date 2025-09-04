@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <math.h>
 
 struct {
     struct {
@@ -31,13 +32,16 @@ struct {
     } tex;
 } bufs;
 
-mat4 proj;
+mat4 proj3d;
+mat4 proj2d;
 mat4 trans;
 
 float fr;
 float fg;
 float fb;
 float fa;
+
+float fov = 90;
 
 void cbDrawSetup(void) {
     bufs.rect.prog = cbLoadProgram("data/eng/rect.vert", "data/eng/rect.frag");
@@ -63,7 +67,25 @@ void cbDrawSetup(void) {
 }
 
 void cbDrawUpdate(int width, int height) {
-    cbMatOrtho(&proj, 0,width,height,0, -1000,1000);
+    if (fov < 179) {
+        const float h = (float)height;
+        const float aspect = (float)width / (float)height;
+        const float torad = 3.1415925635897932384626f / 180.f;
+        const float fovy = fov * torad;
+
+        const float far = 10000;
+        const float near = .1f;
+        const float range = far - near;
+
+        cbMatMake(&proj3d,
+            1/(aspect*tanf(fovy/2.f)), 0, 0, 0,
+            0, -1/tanf(fovy/2.f), 0, 0,
+            0, 0, -(far + near) / range, -(2 * far * near) / range,
+            0, 0, 0, 0
+            );
+    }
+
+    cbMatOrtho(&proj2d, 0,width,height,0, -1000,1000);
 }
 
 void cbDrawClean(void) {
@@ -109,16 +131,16 @@ void IMPL_cbTint(float r, float g, float b, float a) { fr = r; fg = g; fb = b; f
 
 void IMPL_cbClear(float r, float g, float b, float a) {
     glClearColor(r,g,b,a);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void IMPL_cbRect(float x, float y, float z, float w, float h) {
+void IMPL_cbRect(float x, float y, float w, float h) {
     glUseProgram(bufs.rect.prog);
     glBindVertexArray(bufs.rect.vao);
 
-    glUniformMatrix4fv(bufs.rect.loc_proj, 1,0, proj);
+    glUniformMatrix4fv(bufs.rect.loc_proj, 1,0, proj2d);
     glUniformMatrix4fv(bufs.rect.loc_trans, 1,0, trans);
-    glUniform3f(bufs.rect.loc_pos, x,y,z);
+    glUniform2f(bufs.rect.loc_pos, x,y);
     glUniform2f(bufs.rect.loc_size, w,h);
     glUniform4f(bufs.rect.loc_col, fr,fg,fb,fa);
 
@@ -128,7 +150,7 @@ void IMPL_cbRect(float x, float y, float z, float w, float h) {
     glUseProgram(0);
 }
 
-void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, float sx, float sy, float sw, float sh) {
+void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, float sy, float sw, float sh) {
     if (!tex) { printf("texture is null!\n"); return; }
 
     glUseProgram(bufs.tex.prog);
@@ -138,9 +160,9 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float z, float w, float h, flo
     glBindTexture(GL_TEXTURE_2D, tex->id);
     glUniform1i(bufs.tex.loc_tex, 0);
 
-    glUniformMatrix4fv(bufs.tex.loc_proj, 1,0, proj);
+    glUniformMatrix4fv(bufs.tex.loc_proj, 1,0, proj2d);
     glUniformMatrix4fv(bufs.tex.loc_trans, 1,0, trans);
-    glUniform3f(bufs.tex.loc_pos, x,y,z);
+    glUniform2f(bufs.tex.loc_pos, x,y);
     glUniform2f(bufs.tex.loc_size, w,h);
     glUniform2f(bufs.tex.loc_samp_pos, sx/(float)tex->width,sy/(float)tex->height);
     glUniform2f(bufs.tex.loc_samp_size, sw/(float)tex->width,sh/(float)tex->height);

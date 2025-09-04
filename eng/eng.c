@@ -42,6 +42,8 @@ int cbMain(
     actWidth = width;
     actHeight = height;
 
+    glEnable(GL_DEPTH_TEST);
+
     cbDrawSetup();
 
     init();
