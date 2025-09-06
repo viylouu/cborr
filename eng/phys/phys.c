@@ -1,4 +1,5 @@
 #include "phys.h"
+#include "vec/vec.h"
 
 #include <stdint.h>
 #include <math.h>
@@ -12,10 +13,12 @@ uint8_t cbCheckRectColl(float x1, float y1, float w1, float h1, float x2, float 
             y1 <= y2 + h2 && y1 + h1 >= y2);
 }
 
-float cbCheckDistance2d(float x1, float y1, float  x2, float y2) {
-    return sqrtf(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+float cbCheckDistance2d(vec2 s1, vec2 s2) {
+    return sqrtf(((s2.x - s1.x) * (s2.x - s1.x)) + ((s2.y - s1.y) * (s2.y - s1.y)));
 }
 
 float cbCheckDistance3d(float x1, float y1, float z1, float  x2, float y2, float z2){
     return sqrtf(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)) + ((z2 - z1) * (z2 - z1)));
 }
+
+
