@@ -16,26 +16,30 @@
 struct {
     struct {
         uint32_t vao;
-        uint32_t ssbo;
+        uint32_t bo;
+        uint32_t tbo;
         uint32_t prog;
         /*int32_t  loc_pos;
         int32_t  loc_size;
         int32_t  loc_col;*/
-        int32_t  loc_proj;
+        int32_t loc_insts;
+        int32_t loc_proj;
         //int32_t  loc_trans;
     } rect;
 
     struct {
         uint32_t vao;
-        uint32_t ssbo;
+        uint32_t bo;
+        uint32_t tbo;
         uint32_t prog;
         /*int32_t  loc_pos;
         int32_t  loc_size;
         int32_t  loc_samp_pos;
         int32_t  loc_samp_size;
         int32_t  loc_tint;*/
-        int32_t  loc_proj;
-        int32_t  loc_tex;
+        int32_t loc_insts;
+        int32_t loc_proj;
+        int32_t loc_tex;
         //int32_t  loc_trans;
     } tex;
 } bufs;
@@ -90,28 +94,32 @@ void cbDrawSetup(void) {
 
     bufs.rect.prog = cbLoadProgram("data/eng/rect.vert", "data/eng/rect.frag");
     glGenVertexArrays(1, &bufs.rect.vao);
-    
-    glBufferStorage(GL_SHADER_STORAGE_BUFFER, maxBufferSize, nil, GL_DYNAMIC_STORAGE_BIT);
 
-    /*bufs.rect.loc_pos   = glGetUniformLocation(bufs.rect.prog, "pos");
-    bufs.rect.loc_size  = glGetUniformLocation(bufs.rect.prog, "size");
-    bufs.rect.loc_col   = glGetUniformLocation(bufs.rect.prog, "col");
-    bufs.rect.loc_proj  = glGetUniformLocation(bufs.rect.prog, "proj");
-    bufs.rect.loc_trans = glGetUniformLocation(bufs.rect.prog, "trans");*/
+    bufs.tex.loc_insts = glGetUniformLocation(bufs.rect.prog, "insts");
+    bufs.tex.loc_proj = glGetUniformLocation(bufs.rect.prog, "proj");
+    
+    glGenBuffers(1, &bufs.rect.bo);
+    glBindBuffer(GL_TEXTURE_BUFFER, bufs.rect.bo);
+    glBufferData(GL_TEXTURE_BUFFER, maxBufferSize, nil, GL_DYNAMIC_DRAW);
+
+    glGenTextures(1, &bufs.rect.tbo);
+    glBindTexture(GL_TEXTURE_BUFFER, bufs.rect.tbo);
+    glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, bufs.rect.bo);
 
     bufs.tex.prog = cbLoadProgram("data/eng/tex.vert", "data/eng/tex.frag");
     glGenVertexArrays(1, &bufs.tex.vao);
 
-    glBufferStorage(GL_SHADER_STORAGE_BUFFER, maxBufferSize, nil, GL_DYNAMIC_STORAGE_BIT);
+    bufs.tex.loc_insts = glGetUniformLocation(bufs.tex.prog, "insts");
+    bufs.tex.loc_proj = glGetUniformLocation(bufs.tex.prog, "proj");
+    bufs.tex.loc_tex = glGetUniformLocation(bufs.tex.prog, "tex");
 
-    /*bufs.tex.loc_pos   = glGetUniformLocation(bufs.tex.prog, "pos");
-    bufs.tex.loc_size  = glGetUniformLocation(bufs.tex.prog, "size");
-    bufs.tex.loc_samp_pos  = glGetUniformLocation(bufs.tex.prog, "samp_pos");
-    bufs.tex.loc_samp_size = glGetUniformLocation(bufs.tex.prog, "samp_size");
-    bufs.tex.loc_tint  = glGetUniformLocation(bufs.tex.prog, "tint");
-    bufs.tex.loc_proj  = glGetUniformLocation(bufs.tex.prog, "proj");
-    bufs.tex.loc_tex   = glGetUniformLocation(bufs.tex.prog, "tex");
-    bufs.tex.loc_trans = glGetUniformLocation(bufs.tex.prog, "trans");*/
+    glGenBuffers(1, &bufs.tex.bo);
+    glBindBuffer(GL_TEXTURE_BUFFER, bufs.tex.bo);
+    glBufferData(GL_TEXTURE_BUFFER, maxBufferSize, nil, GL_DYNAMIC_DRAW);
+
+    glGenTextures(1, &bufs.tex.tbo);
+    glBindTexture(GL_TEXTURE_BUFFER, bufs.tex.tbo);
+    glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, bufs.tex.bo);
 }
 
 void cbDrawUpdate(int width, int height) {
@@ -140,11 +148,13 @@ void cbDrawClean(void) {
     cbDynArrFree(&batch.data);
 
     glDeleteVertexArrays(1, &bufs.tex.vao);
-    glDeleteBuffers(1, &bufs.tex.ssbo);
+    glDeleteBuffers(1, &bufs.tex.tbo);
+    glDeleteBuffers(1, &bufs.tex.bo);
     glDeleteProgram(bufs.tex.prog);
 
     glDeleteVertexArrays(1, &bufs.rect.vao);
-    glDeleteBuffers(1, &bufs.rect.ssbo);
+    glDeleteBuffers(1, &bufs.rect.tbo);
+    glDeleteBuffers(1, &bufs.rect.bo);
     glDeleteProgram(bufs.rect.prog);
 }
 
@@ -159,9 +169,12 @@ void cbDrawFlush(void) {
 
             glUniformMatrix4fv(bufs.rect.loc_proj, 1,0, proj2d);
 
-            glBindBuffer(GL_SHADER_STORAGE_BUFFER, bufs.rect.ssbo);
-            glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, batch.data.size * sizeof(InstanceData), batch.data.data);
-            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, bufs.rect.ssbo);
+            glBindBuffer(GL_TEXTURE_BUFFER, bufs.rect.bo);
+            glBufferSubData(GL_TEXTURE_BUFFER, 0, batch.data.size * sizeof(InstanceData), batch.data.data);
+
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_BUFFER, bufs.rect.tbo);
+            glUniform1i(bufs.rect.loc_insts, 1);
 
             /*glUniformMatrix4fv(bufs.rect.loc_trans, 1,0, trans);
             glUniform2f(bufs.rect.loc_pos, x,y);
@@ -188,9 +201,12 @@ void cbDrawFlush(void) {
 
             glUniformMatrix4fv(bufs.tex.loc_proj, 1,0, proj2d);
 
-            glBindBuffer(GL_SHADER_STORAGE_BUFFER, bufs.tex.ssbo);
-            glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, batch.data.size * sizeof(InstanceData), batch.data.data);
-            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, bufs.tex.ssbo);
+            glBindBuffer(GL_TEXTURE_BUFFER, bufs.rect.bo);
+            glBufferSubData(GL_TEXTURE_BUFFER, 0, batch.data.size * sizeof(InstanceData), batch.data.data);
+
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_BUFFER, bufs.rect.tbo);
+            glUniform1i(bufs.rect.loc_insts, 1);
             
             /*glUniformMatrix4fv(bufs.tex.loc_trans, 1,0, trans);
             glUniform2f(bufs.tex.loc_pos, x,y);
