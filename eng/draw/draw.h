@@ -4,11 +4,13 @@
 #include "tex/tex.h"
 
 extern float fov;
+extern const int maxBatchSize;
 
 void cbDrawSetup(void);
 void cbDrawUpdate(int width, int height);
 void cbDrawClean(void);
 void cbResetTransform(void);
+void cbDrawFlush(void);
 
 // ------- funcs
 void IMPL_cbTranslate(float x, float y, float z);

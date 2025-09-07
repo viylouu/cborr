@@ -1,19 +1,39 @@
-#version 330 core
+#version 430 core
+
+struct InstanceData {
+    mat4 trans;
+    vec2 pos;
+    vec2 size;
+    vec2 sampPos;
+    vec2 sampSize;
+    vec4 col;
+};
+
+layout(std430, binding = 0) buffer batchSSBO {
+    InstanceData insts[];
+};
 
 const vec2 verts[6] = vec2[6](
     vec2(0,0), vec2(1,0), vec2(1,1),
     vec2(1,1), vec2(0,1), vec2(0,0)
         );
 
-uniform vec3 pos;
-uniform vec2 size;
-
 uniform mat4 proj;
-uniform mat4 trans;
+
+flat out vec2 sampPos;
+flat out vec2 sampSize;
+flat out vec4 col;
 
 out vec2 uv;
 
 void main() {
-    gl_Position = proj * trans * vec4(vec3(verts[gl_VertexID] * size, 0) + pos,1);
-    uv = verts[gl_VertexID];
+    vec2 vert = verts[gl_VertexID % 6];
+    InstanceData data = insts[gl_VertexID / 6];
+
+    gl_Position = proj * data.trans * vec4(vert * data.size + data.pos, 0,1);
+    
+    sampPos = data.sampPos;
+    sampSize = data.sampSize;
+    col = data.col;
+    uv = vert;
 }

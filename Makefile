@@ -37,7 +37,8 @@ src: $(ENGINE_OBJ)
 # generic rule for compiling C files
 $(TARGET_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(ENGINE_OBJ) -o $(TARGET_DIR)/out $(LDFLAGS)
+	./$(TARGET_DIR)/out
 
 # linux example: build & run
 $(EXAMPLES): %: examples/%/main.c src

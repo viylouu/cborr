@@ -1,16 +1,16 @@
 #version 330 core
 
 uniform sampler2D tex;
-uniform vec2 samp_pos;
-uniform vec2 samp_size;
-uniform vec4 tint;
 
+flat in vec2 sampPos;
+flat in vec2 sampSize;
+flat in vec4 col;
 in vec2 uv;
 
 out vec4 oCol;
 
 void main() {
-    vec4 samp = texture(tex, uv * samp_size + samp_pos) * tint;
+    vec4 samp = texture(tex, uv * sampSize + sampPos) * col;
     if (samp.a == 0) discard;
     oCol = samp;
 }

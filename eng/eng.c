@@ -56,6 +56,7 @@ int cbMain(
 
         cbResetTransform();
         render();
+        cbDrawFlush();
 
         glfwSwapBuffers(window);
     }
