@@ -8,7 +8,7 @@
 uint32_t cbCompileProgram(uint32_t* shaders, uint32_t amount) {
     uint32_t prog = glCreateProgram();
 
-    for (int i = 0; i < amount; ++i)
+    for (uint32_t i = 0; i < amount; ++i)
         glAttachShader(prog, shaders[i]);
     glLinkProgram(prog);
 

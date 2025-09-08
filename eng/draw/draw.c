@@ -126,7 +126,6 @@ void cbDrawSetup(void) {
 
 void cbDrawUpdate(int width, int height) {
     if (fov < 179) {
-        const float h = (float)height;
         const float aspect = (float)width / (float)height;
         const float torad = 3.1415925635897932384626f / 180.f;
         const float fovy = fov * torad;

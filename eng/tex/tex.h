@@ -1,6 +1,8 @@
 #ifndef TEX_H
 #define TEX_H
 
+#include <stdlib.h>
+
 typedef enum {
     CB_NEAREST,
     CB_BILINEAR
@@ -15,7 +17,7 @@ typedef struct {
 
 
 void cbUnloadTexture(CBtexture* tex);
-CBtexture* cbLoadFromData(unsigned char* data, unsigned long size);
+CBtexture* cbLoadFromData(unsigned char* data, size_t size);
 CBtexture* cbLoadTexture(const char* path);
 
 #endif
