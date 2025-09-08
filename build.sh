@@ -20,17 +20,11 @@ for arg in "$@"; do
     fi
 done
 
-if [ "$TEST_BUILD" = true ]; then
+if [[ "$OSTYPE" == "linux-gnu" ]] && [[ "$TEST_BUILD" == "true" ]]; then
     COMPILER="tcc"
     CFLAGS+=" -DSTBI_NO_SIMD"
 else
     CFLAGS+=" -O2 -flto"
-fi
-
-if [[ "$OSTYPE" == "linux-gnu"  ]] && [[ "$WINDOWS_BUILD" == "true" ]]; then
-    CFLAGS+=" -Linclude/LINK/glfw -lglfw3"
-elif [[ "$OSTYPE" == "mysys" ]] || [[ "$OSTYPE" == "cygwin" ]] && [[ "$WINDOWS_BUILD" == "true" ]]; then
-    CFLAGS+=" "
 fi
 
 if [ "$WINDOWS_BUILD" = true ]; then
