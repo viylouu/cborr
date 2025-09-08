@@ -3,15 +3,18 @@
 mkdir -p build
 
 COMPILER="gcc"
-CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng -lglfw -ldl -lm -lGL"
+CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng "
 SRC_DIRS=("eng" "include")
 
 TEST_BUILD=false
+WINDOWS_BUILD=false
 EXAMPLE=""
 
 for arg in "$@"; do
     if [ "$arg" = "-t" ]; then
         TEST_BUILD=true
+    elif [ "$arg" = "-w" ]; then
+        WINDOWS_BUILD=true
     else
         EXAMPLE="$arg"
     fi
@@ -22,6 +25,12 @@ if [ "$TEST_BUILD" = true ]; then
     CFLAGS+=" -DSTBI_NO_SIMD"
 else
     CFLAGS+=" -O2 -flto"
+fi
+
+if [ "$WINDOWS_BUILD" = true ]; then
+    CFLAGS+=" -lglfw3 -lm -lopengl32"
+else
+    CFLAGS+=" -lglfw -ldl -lm -lGL"
 fi
 
 if [ -n "$EXAMPLE" ]; then
@@ -37,20 +46,11 @@ for dir in "${SRC_DIRS[@]}"; do
     done < <(find "$dir" -name "*.c")
 done
 
-"$COMPILER" "${FILES[@]}" $CFLAGS -o out
-
-#mkdir -p build
-
-#tcc \
-#    -lglfw -ldl -lm -lGL \
-#    -DSTBI_NO_SIMD \
-#    -Iinclude -Ieng \
-#    examples/window/main.c \
-#    eng/eng.c eng/draw/draw.c eng/dyn/dyn.c eng/mat/mat.c eng/phys/phys.c eng/shader/shader.c eng/tex/tex.c \
-#    include/glad/glad.c \
-#    -std=c99 \
-#    -o build/out
-
-
-./build/out
+if [ "$WINDOWS_BUILD" = true ]; then
+    "$COMPILER" "${FILES[@]}" $CFLAGS -o out
+    ./build/out
+else
+    "$COMPILER" "${FILES[@]}" $CFLAGS -o out.exe
+    ./build/out.exe
+fi
 

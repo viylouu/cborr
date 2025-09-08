@@ -55,3 +55,7 @@ it autoscans src, eng, and include for c files
   
 if you want to build and example, see this:  
 - run `./build.sh EXAMPLE_NAME`  
+
+## windows builds
+windows builds are simple  
+same syntax, just add the -w flag!
