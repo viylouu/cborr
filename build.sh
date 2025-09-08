@@ -28,14 +28,14 @@ else
 fi
 
 if [[ "$OSTYPE" == "linux-gnu"  ]] && [[ "$WINDOWS_BUILD" == "true" ]]; then
-    CFLAGS+="  -Iinclude/CROSS/include -Linclude/CROSS/lib"
+    CFLAGS+=" -Linclude/LINK/glfw -lglfw3"
 elif [[ "$OSTYPE" == "mysys" ]] || [[ "$OSTYPE" == "cygwin" ]] && [[ "$WINDOWS_BUILD" == "true" ]]; then
-    CFLAGS+=" -Linclude/CROSS/lib -lglfw3"
+    CFLAGS+=" "
 fi
 
 if [ "$WINDOWS_BUILD" = true ]; then
     COMPILER="x86_64-w64-mingw32-gcc"
-    CFLAGS+=" -lm -lopengl32 -lgdi32"
+    CFLAGS+=" -Linclude/LINK/glfw -lglfw3 -lm -lopengl32 -lgdi32 "
 else
     CFLAGS+=" -lglfw -ldl -lm -lGL"
 fi
@@ -54,7 +54,12 @@ for dir in "${SRC_DIRS[@]}"; do
 done
 
 if [ "$WINDOWS_BUILD" = true ]; then
-    "$COMPILER" "${FILES[@]}" $CFLAGS -o build/out.exe && ./build/out.exe
+    "$COMPILER" "${FILES[@]}" $CFLAGS -o build/out.exe
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        wine ./build/out.exe
+    else
+        ./build/out.exe
+    fi
 else
     "$COMPILER" "${FILES[@]}" $CFLAGS -o build/out && ./build/out
 fi
