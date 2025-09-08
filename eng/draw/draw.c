@@ -184,8 +184,10 @@ void cbDrawFlush(void) {
 
             glDrawArrays(GL_TRIANGLES, 0, 6);*/
 
-            glDrawArrays(GL_TRIANGLES, 0, 6 * batch.data.size);
+            glDrawArraysInstanced(GL_TRIANGLES, 0, 6, batch.data.size);
 
+            glBindTexture(GL_TEXTURE_BUFFER, 0);
+            glBindBuffer(GL_TEXTURE_BUFFER, 0);
             glBindVertexArray(0);
             glUseProgram(0);
 
@@ -218,10 +220,12 @@ void cbDrawFlush(void) {
 
             glDrawArrays(GL_TRIANGLES, 0, 6);*/
 
-            glDrawArrays(GL_TRIANGLES, 0, 6 * batch.data.size);
+            glDrawArraysInstanced(GL_TRIANGLES, 0, 6, batch.data.size);
 
-            glBindVertexArray(0);
+            glBindTexture(GL_TEXTURE_BUFFER, 0);
+            glBindBuffer(GL_TEXTURE_BUFFER, 0);
             glBindTexture(GL_TEXTURE_2D, 0);
+            glBindVertexArray(0);
             glUseProgram(0);
 
             break;
