@@ -30,7 +30,7 @@ fi
 if [[ "$OSTYPE" == "linux-gnu"  ]] && [[ "$WINDOWS_BUILD" == "true" ]]; then
     CFLAGS+="  -Iinclude/CROSS/include -Linclude/CROSS/lib"
 elif [[ "$OSTYPE" == "mysys" ]] || [[ "$OSTYPE" == "cygwin" ]] && [[ "$WINDOWS_BUILD" == "true" ]]; then
-    CFLAGS+=" -Linclude/CROSS/lib -lglfw"
+    CFLAGS+=" -Linclude/CROSS/lib -lglfw3"
 fi
 
 if [ "$WINDOWS_BUILD" = true ]; then
