@@ -77,7 +77,7 @@ mat4 proj2d;
 mat4 trans;
 
 const int maxBatchSize = 65536;
-const int maxBufferSize = maxBatchSize * sizeof(InstanceData);
+int maxBufferSize;
 
 float fr;
 float fg;
@@ -88,6 +88,8 @@ float fov = 90;
 
 void cbDrawSetup(void) {
     cbDynArrInit(&batch.data, sizeof(InstanceData));
+
+    maxBufferSize = maxBatchSize * sizeof(InstanceData);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

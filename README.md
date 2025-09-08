@@ -25,22 +25,33 @@ this project is licensed under the [WTFNMFPL](https://github.com/adversary-org/w
      with your use of the work.
 ```
 
-to test example, do  
-```bash
-make path
-```
+# building
+this project uses the tiny c compiler (aka. tcc) for test builds  
+this means it builds very fast when needed (muy bueno)  
+it also uses gcc for full builds  
+this means it runs very fast when needed (muy bueno)  
+you will need to have these in your path to run the build.sh  
+
+## test builds
+test builds use tcc, and are therefore less optimized, but a faster build  
+you can do a test build like this:  
+- run `./build.sh -t`  
+this will build and run the src/main.c file  
+it autoscans src, eng, and include for c files  
+
+>
+> just pointing out that test builds dont really have as must errors / warnings
+>
   
-to test example (windows edition :onion:), do  
-```bash
-make win_path
-```
+if you want to test an example, see this:  
+- run './build.sh EXAMPLE_NAME -t'  
+
+## regular builds
+regular builds use gcc, and are therefore more optimized, but a slower build  
+you can do a regular build like this:  
+- run `./build.sh`  
+this will build and run the src/main.c file  
+it autoscans src, eng, and include for c files  
   
-to build your own stuff, do  
-```bash
-make
-```
-  
-to build your own stuff (windows edition :onion:), do  
-```bash
-make sillywindows
-```
+if you want to build and example, see this:  
+- run `./build.sh EXAMPLE_NAME`  
