@@ -3,7 +3,7 @@
 mkdir -p build
 
 COMPILER="gcc"
-CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng "
+CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng"
 SRC_DIRS=("eng" "include")
 
 TEST_BUILD=false
@@ -28,7 +28,8 @@ else
 fi
 
 if [ "$WINDOWS_BUILD" = true ]; then
-    CFLAGS+=" -lglfw3 -lm -lopengl32"
+    COMPILER="x86_64-w64-mingw32-gcc"
+    CFLAGS+=" -lglfw -lm -lopengl32"
 else
     CFLAGS+=" -lglfw -ldl -lm -lGL"
 fi
