@@ -27,7 +27,7 @@ int cbMain(
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(width,height, title, 0,0);
+    window = glfwCreateWindow(width,height, title, 0,0);
     if (!window) { printf("failed to create window!\n"); return 1; }
 
     glfwMakeContextCurrent(window);

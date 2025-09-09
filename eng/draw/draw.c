@@ -19,12 +19,8 @@ struct {
         uint32_t bo;
         uint32_t tbo;
         uint32_t prog;
-        /*int32_t  loc_pos;
-        int32_t  loc_size;
-        int32_t  loc_col;*/
         int32_t loc_insts;
         int32_t loc_proj;
-        //int32_t  loc_trans;
     } rect;
 
     struct {
@@ -32,15 +28,9 @@ struct {
         uint32_t bo;
         uint32_t tbo;
         uint32_t prog;
-        /*int32_t  loc_pos;
-        int32_t  loc_size;
-        int32_t  loc_samp_pos;
-        int32_t  loc_samp_size;
-        int32_t  loc_tint;*/
         int32_t loc_insts;
         int32_t loc_proj;
         int32_t loc_tex;
-        //int32_t  loc_trans;
     } tex;
 } bufs;
 
@@ -91,7 +81,8 @@ float fov = 90;
 void cbDrawSetup(void) {
     cbDynArrInit(&batch.data, sizeof(InstanceData));
 
-    _Static_assert(sizeof(InstanceData) == sizeof(float) * 28, "NOOOOOOOOOOOOOOOOOOOO");
+    // waaah
+    if (sizeof(InstanceData) != 112) { exit(1); }
 
     maxBufferSize = maxBatchSize * sizeof(InstanceData);
 
@@ -208,12 +199,12 @@ void cbDrawFlush(void) {
 
             glUniformMatrix4fv(bufs.tex.loc_proj, 1,0, proj2d);
 
-            glBindBuffer(GL_TEXTURE_BUFFER, bufs.rect.bo);
+            glBindBuffer(GL_TEXTURE_BUFFER, bufs.tex.bo);
             glBufferSubData(GL_TEXTURE_BUFFER, 0, batch.data.size * sizeof(InstanceData), batch.data.data);
 
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_BUFFER, bufs.rect.tbo);
-            glUniform1i(bufs.rect.loc_insts, 1);
+            glUniform1i(bufs.tex.loc_insts, 1);
             
             /*glUniformMatrix4fv(bufs.tex.loc_trans, 1,0, trans);
             glUniform2f(bufs.tex.loc_pos, x,y);
@@ -292,6 +283,10 @@ void IMPL_cbRect(float x, float y, float w, float h) {
     data.g = fg;
     data.b = fb;
     data.a = fa;
+
+    batch.type = CB_RECT;
+    batch.tex = nil;
+    cbDynArrPushBack(&batch.data, &data);
 
     /*glUseProgram(bufs.rect.prog);
     glBindVertexArray(bufs.rect.vao);

@@ -80,5 +80,4 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
 #define tex_7(tex,x,y,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,sw,sh,sx,sy,sw,sh)
 #define tex_9(tex,x,y,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,w,h,sx,sy,sw,sh)
 
-
 #endif
