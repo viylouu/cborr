@@ -91,6 +91,8 @@ float fov = 90;
 void cbDrawSetup(void) {
     cbDynArrInit(&batch.data, sizeof(InstanceData));
 
+    _Static_assert(sizeof(InstanceData) == sizeof(float) * 28, "NOOOOOOOOOOOOOOOOOOOO");
+
     maxBufferSize = maxBatchSize * sizeof(InstanceData);
 
     glEnable(GL_BLEND);
