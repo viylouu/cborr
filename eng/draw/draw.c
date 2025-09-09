@@ -49,7 +49,8 @@ typedef enum {
     CB_TEXTURE
 } BatchType;
 
-typedef struct __attribute__((packed)) {
+#pragma pack(4)
+typedef struct {
     mat4 trans;
     float x;
     float y;
@@ -64,6 +65,7 @@ typedef struct __attribute__((packed)) {
     float b;
     float a;
 } InstanceData;
+#pragma pack()
 
 struct {
     BatchType type;
