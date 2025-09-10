@@ -58,5 +58,5 @@ if you want to build and example, see this:
 
 ## windows builds
 windows builds are simple  
-same syntax, just add the -w flag!  
+same syntax, just add the -w flag! (only nesseccary for linux -> windows cross compilation)  
 they do however force you to use gcc because silly windows :onion:  
