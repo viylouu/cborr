@@ -1,7 +1,7 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "tex/tex.h"
+#include "draw/tex.h"
 
 extern float fov;
 extern const int maxBatchSize;

@@ -1,6 +1,4 @@
-#include "draw/draw.h"
 #include <eng.h>
-#include <GLFW/glfw3.h>
 
 void init(void) {}
 void update(void) { }

@@ -1,5 +1,5 @@
 #include "phys.h"
-#include "vec/vec.h"
+#include "type/vec.h"
 
 #include <stdint.h>
 #include <math.h>

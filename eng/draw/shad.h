@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef SHAD_H
+#define SHAD_H
 
 unsigned int cbCompileProgram(unsigned int* shaders, unsigned int amount);
 unsigned int cbLoadShaderFromSrc(unsigned int type, const char** src);

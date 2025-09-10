@@ -1,14 +1,16 @@
 #include "draw.h"
-#include "mat/mat.h"
-#include "shader/shader.h"
-#include "tex/tex.h"
+
+#include "type/mat.h"
+#include "type/dyn.h"
+
+#include "draw/shad.h"
+#include "draw/tex.h"
 
 #include <glad/glad.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
-#include "dyn/dyn.h"
 #include <string.h>
 
 #define nil NULL

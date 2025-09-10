@@ -1,10 +1,10 @@
 #ifndef ENG_H
 #define ENG_H
 
-#include "tex/tex.h"
-#include "shader/shader.h"
+#include "draw/tex.h"
+#include "draw/shad.h"
 #include "draw/draw.h"
-#include "mat/mat.h"
+#include "type/mat.h"
 
 extern int actWidth;
 extern int actHeight;

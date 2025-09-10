@@ -1,7 +1,4 @@
-#include "draw/draw.h"
-#include "tex/tex.h"
 #include <eng.h>
-#include <GLFW/glfw3.h>
 
 CBtexture* tex;
 
