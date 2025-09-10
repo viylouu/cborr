@@ -12,12 +12,7 @@ struct InstanceData {
 };
 
 uniform samplerBuffer insts;
-
-//uniform vec3 pos;
-//uniform vec2 size;
-
 uniform mat4 proj;
-//uniform mat4 trans;
 
 flat out vec4 col;
 

@@ -21,6 +21,8 @@ int cbMain(
     char* title,  int width, int height,
     func init, func update, func render, func clean
 ) {
+    glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+
     if (!glfwInit()) { printf("goodbye world, never knew you!\n"); return 1; }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -42,7 +44,7 @@ int cbMain(
     actWidth = width;
     actHeight = height;
 
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
 
     cbDrawSetup();
 

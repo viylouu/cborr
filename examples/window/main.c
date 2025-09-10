@@ -10,7 +10,7 @@ void render(void) {
 
     cbTint(255,0,0);
     for (int x = 0; x < 128; ++x)
-        cbRect(x*4,0,64,64);
+        cbRect(x*4,0,12888,12888);
 }
 
 void clean(void) {}

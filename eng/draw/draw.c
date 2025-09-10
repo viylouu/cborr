@@ -92,8 +92,8 @@ void cbDrawSetup(void) {
     bufs.rect.prog = cbLoadProgram("data/eng/rect.vert", "data/eng/rect.frag");
     glGenVertexArrays(1, &bufs.rect.vao);
 
-    bufs.tex.loc_insts = glGetUniformLocation(bufs.rect.prog, "insts");
-    bufs.tex.loc_proj = glGetUniformLocation(bufs.rect.prog, "proj");
+    bufs.rect.loc_insts = glGetUniformLocation(bufs.rect.prog, "insts");
+    bufs.rect.loc_proj = glGetUniformLocation(bufs.rect.prog, "proj");
     
     glGenBuffers(1, &bufs.rect.bo);
     glBindBuffer(GL_TEXTURE_BUFFER, bufs.rect.bo);
@@ -172,13 +172,6 @@ void cbDrawFlush(void) {
             glBindTexture(GL_TEXTURE_BUFFER, bufs.rect.tbo);
             glUniform1i(bufs.rect.loc_insts, 1);
 
-            /*glUniformMatrix4fv(bufs.rect.loc_trans, 1,0, trans);
-            glUniform2f(bufs.rect.loc_pos, x,y);
-            glUniform2f(bufs.rect.loc_size, w,h);
-            glUniform4f(bufs.rect.loc_col, fr,fg,fb,fa);
-
-            glDrawArrays(GL_TRIANGLES, 0, 6);*/
-
             glDrawArraysInstanced(GL_TRIANGLES, 0, 6, batch.data.size);
 
             glBindTexture(GL_TEXTURE_BUFFER, 0);
@@ -203,17 +196,8 @@ void cbDrawFlush(void) {
             glBufferSubData(GL_TEXTURE_BUFFER, 0, batch.data.size * sizeof(InstanceData), batch.data.data);
 
             glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_BUFFER, bufs.rect.tbo);
+            glBindTexture(GL_TEXTURE_BUFFER, bufs.tex.tbo);
             glUniform1i(bufs.tex.loc_insts, 1);
-            
-            /*glUniformMatrix4fv(bufs.tex.loc_trans, 1,0, trans);
-            glUniform2f(bufs.tex.loc_pos, x,y);
-            glUniform2f(bufs.tex.loc_size, w,h);
-            glUniform2f(bufs.tex.loc_samp_pos, sx/(float)tex->width,sy/(float)tex->height);
-            glUniform2f(bufs.tex.loc_samp_size, sw/(float)tex->width,sh/(float)tex->height);
-            glUniform4f(bufs.tex.loc_tint, fr,fg,fb,fa);
-
-            glDrawArrays(GL_TRIANGLES, 0, 6);*/
 
             glDrawArraysInstanced(GL_TRIANGLES, 0, 6, batch.data.size);
 
@@ -264,7 +248,7 @@ void IMPL_cbTint(float r, float g, float b, float a) { fr = r; fg = g; fb = b; f
 
 void IMPL_cbClear(float r, float g, float b, float a) {
     glClearColor(r,g,b,a);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void IMPL_cbRect(float x, float y, float w, float h) {

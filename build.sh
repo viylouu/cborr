@@ -3,7 +3,7 @@
 mkdir -p build
 
 COMPILER="gcc"
-CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng"
+CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng -D GLFW_BUILD_X11=1 -D GLFW_BUILD_WAYLAND=0"
 SRC_DIRS=("eng" "include")
 
 TEST_BUILD=false
