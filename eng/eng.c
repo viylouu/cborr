@@ -10,6 +10,9 @@ GLFWwindow* window;
 int actWidth = 0;
 int actHeight = 0;
 
+float CB_WIDTH = 0;
+float CB_HEIGHT = 0;
+
 void cbCallbackSize(GLFWwindow* window, int width, int height) {
     glViewport(0,0,width,height);
     actWidth = width;
@@ -55,6 +58,9 @@ int cbMain(
         glfwPollEvents();
 
         update();
+
+        CB_WIDTH = actWidth;
+        CB_HEIGHT = actHeight;
 
         cbResetTransform();
         render();

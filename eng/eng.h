@@ -9,6 +9,9 @@
 extern int actWidth;
 extern int actHeight;
 
+extern float CB_WIDTH;
+extern float CB_HEIGHT;
+
 typedef void (*func)(void);
 
 int cbMain(
