@@ -21,7 +21,7 @@ int cbMain(
     char* title,  int width, int height,
     func init, func update, func render, func clean
 ) {
-    glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+    //glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
 
     if (!glfwInit()) { printf("goodbye world, never knew you!\n"); return 1; }
 

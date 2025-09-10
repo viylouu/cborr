@@ -137,7 +137,7 @@ void cbDrawUpdate(int width, int height) {
             );
     }
 
-    cbMatOrtho(&proj2d, 0,width,height,0, -1000,1000);
+    cbMatOrtho(&proj2d, 0,width,height,0, -1,1);
 }
 
 void cbDrawClean(void) {
@@ -294,16 +294,18 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
         if (batch.tex != tex) { cbDrawFlush(); batch.tex = tex; }
     } else batch.wasUsed = true;
 
+    if (!tex) { printf("texture is nil!"); return; }
+
     InstanceData data;
     memcpy(data.trans, trans, sizeof(trans));
     data.x = x;
     data.y = y;
     data.w = w;
     data.h = h;
-    data.sx = sx;
-    data.sy = sy;
-    data.sw = sw;
-    data.sh = sh;
+    data.sx = sx / tex->width;
+    data.sy = sy / tex->height;
+    data.sw = sw / tex->width;
+    data.sh = sh / tex->height;
     data.r = fr;
     data.g = fg;
     data.b = fb;
