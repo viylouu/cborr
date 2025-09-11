@@ -61,9 +61,9 @@ int cbMain(
 
     //glEnable(GL_DEPTH_TEST);
 
-    cbDynArrInit(&times);
-    cbDynArrInit(&deltas);
-    cbDynArrInit(&speeds);
+    cbDynArrInit(&times, sizeof(float));
+    cbDynArrInit(&deltas, sizeof(float));
+    cbDynArrInit(&speeds, sizeof(float));
 
     cbDrawSetup();
 
