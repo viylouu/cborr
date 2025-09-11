@@ -10,6 +10,8 @@ typedef struct {
     size_t index;
 } CBtimer;
 
+extern CBtimer* cbTime;
+
 CBtimer* cbMakeTimer(float offset);
 void cbDestroyTimer(CBtimer* timer);
 void cbInitTimers(float time);

@@ -1,7 +1,12 @@
+#include "type/timer.h"
 #include <eng.h>
 
+#include <stdio.h>
+
 void init(void) {}
-void update(void) { }
+void update(void) {
+    printf("%f\n", 1/cbTime->time);
+}
 
 void render(void) {
     cbFClear(.2f, .3f, .4f);
