@@ -5,6 +5,7 @@
 #include "draw/shad.h"
 #include "draw/draw.h"
 #include "type/mat.h"
+//#include "gl/gl.h"
 
 extern int actWidth;
 extern int actHeight;

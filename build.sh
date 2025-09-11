@@ -10,6 +10,10 @@ TEST_BUILD=false
 WINDOWS_BUILD=false
 EXAMPLE=""
 
+if [[ ! "$OSTYPE" == "linux-gnu" ]]; then
+    WINDOWS_BUILD=true # sowwy windows to linux ppl
+fi
+
 for arg in "$@"; do
     if [ "$arg" = "-t" ]; then
         TEST_BUILD=true
@@ -31,7 +35,7 @@ if [ "$WINDOWS_BUILD" = true ]; then
     COMPILER="x86_64-w64-mingw32-gcc"
     CFLAGS+=" -Linclude/LINK/glfw -lglfw3 -lm -lopengl32 -lgdi32 "
 else
-    CFLAGS+=" -lglfw -ldl -lm -lGL"
+    CFLAGS+=" -lglfw -ldl -lm -lGL" #-LEGL -LX11
 fi
 
 if [ -n "$EXAMPLE" ]; then

@@ -40,6 +40,10 @@ int cbMain(
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { printf("failed to load opengl!\n"); return 1; }
 
+    //cbLoadGl();
+
+    //
+
     glViewport(0,0,width,height);
     
     glfwSwapInterval(1);
