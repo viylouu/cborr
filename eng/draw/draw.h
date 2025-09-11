@@ -59,13 +59,13 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
 
 #define SELECT_FTINT(...) CAT(ftint_, VA_NARGS(__VA_ARGS__))
 #define cbFTint(...) SELECT_FTINT(__VA_ARGS__)(__VA_ARGS__)
-#define ftint_1(r) IMPL_cbTint(r,r,r,1.f)
+#define ftint_1(val) IMPL_cbTint(val,val,val,1.f)
 #define ftint_3(r,g,b) IMPL_cbTint(r,g,b,1.f)
 #define ftint_4(r,g,b,a) IMPL_cbTint(r,g,b,a)
 
 #define SELECT_TINT(...) CAT(tint_, VA_NARGS(__VA_ARGS__))
 #define cbTint(...) SELECT_TINT(__VA_ARGS__)(__VA_ARGS__)
-#define tint_1(r) IMPL_cbTint(r/255.f,r/255.f,r/255.f,1.f)
+#define tint_1(val) IMPL_cbTint(val/255.f,val/255.f,val/255.f,1.f)
 #define tint_3(r,g,b) IMPL_cbTint(r/255.f,g/255.f,b/255.f,1.f)
 #define tint_4(r,g,b,a) IMPL_cbTint(r/255.f,g/255.f,b/255.f,a/255.f)
 
@@ -79,5 +79,108 @@ void IMPL_cbTex(CBtexture* tex, float x, float y, float w, float h, float sx, fl
 #define tex_5(tex,x,y,w,h) IMPL_cbTex(tex,x,y,w,h,0,0,tex->width,tex->height)
 #define tex_7(tex,x,y,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,sw,sh,sx,sy,sw,sh)
 #define tex_9(tex,x,y,w,h,sx,sy,sw,sh) IMPL_cbTex(tex,x,y,w,h,sx,sy,sw,sh)
+
+// ------- functions in human readable format
+// 
+//// ENGINE USED
+//
+// cbDrawSetup(void)
+//  sets up draw.h
+//
+// cbDrawUpdate(int width, int height)
+//  updates draw.h using width and height
+//
+// cbDrawClean(void)
+//  un sets up draw.h
+//  the cleanup
+//
+//// USER USED (NO OVERLOADS)
+//
+// cbResetTransform(void)
+//  resets the transformation matrix
+//  this gets called at the start of each frame
+//
+// cbDrawFlush(void)
+//  forces the gpu to start rendering the current batch
+//  this gets called at the end of each frame
+//  this also gets called when swapping buffer types
+//  and also in some specific cases (see draw.c IMPL_name)
+//
+//// USER USED (OVERLOADS)
+//
+/// MATRICES
+//
+// cbTranslate
+//      ( float x, float y, float z )
+//      ( float x, float y)
+//  applies a translation matrix
+//
+// cbScale
+//      ( float x, float y, float z )
+//      ( float x, float y )
+//  applies a scale matrix
+//
+// cbRotate
+//      ( float x, float y, float z )
+//      ( float ang )
+//  applies a rotation matrix
+//
+/// DRAW STATE
+//
+// cbFTint
+//      ( float r, float g, float b, float a )
+//      ( float r, float g, float b )
+//      ( float val )
+//  changes the current color tint value
+//  this is only because of the limited overload system used
+//  batch instances all have unique color values
+//  color format is in [0,1]
+//
+// cbTint
+//      ( float r, float g, float b, float a )
+//      ( float r, float g, float b )
+//      ( float val )
+//  changes the current color tint value
+//  this is only because of the limited overload systme used
+//  batch instances all have unique color values
+//  color format is in [0,255]
+//
+/// DRAW MISC
+//
+// cbFClear
+//      ( float r, float g, float b, float a )
+//      ( float r, float g, float b )
+//      ( float val )
+//  clears the screen using the desired color
+//  color format is in [0,1]
+//
+// cbClear
+//      ( float r, float g, float b, float a )
+//      ( float r, float g, float b )
+//      ( float val )
+//  clears the screen using the desired color
+//  color format is in [0,255]
+//
+/// 2D DRAW ACTUAL STUFF OMG SO LOW
+//
+// INFO:
+//  stuff here is drawn in pixel space coordinates UNLESS stated otherwise
+//  origin is at the top left UNLESS stated otherwise
+//
+// cbRect
+//      ( float x, float y, float w, float h )
+//  draws a rectangle using the given values
+//
+// cbTex
+//      ( CBtexture* tex, float x, float y, float w, float h, float sx, float sy, float sw, float sh )
+//      ( CBtexture* tex, float x, float y, float sx, float sy, float sw, float sh )
+//      ( CBtexture* tex, float x, float y, float w, float h )
+//      ( CBtexture* tex, float x, float y )
+//  draws a texture using the given values
+//  the s(x/y/w/h) denotes a sample coordinate
+//  sample origin is top left
+//  sample is in pixel space coordinates
+//
+//
 
 #endif
