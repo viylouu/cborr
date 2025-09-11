@@ -99,6 +99,7 @@
 //  the s(x/y/w/h) denotes a sample coordinate
 //  sample origin is top left
 //  sample is in pixel space coordinates
+//  KEEP IN MIND this does also tint from the FTint / Tint function
 //
 //
 
