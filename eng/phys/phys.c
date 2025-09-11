@@ -7,6 +7,8 @@
 const float GRAV = 9.81;
 //we prolly should make pi in our own math file
 const float PI = 3.14159;
+//oiler, haha funny
+extern const float e = 2.71828;
 
 uint8_t cbCheckRectColl(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2){
     return (x1 + w1 >= x2 && x1 <= x2 + w2 &&
