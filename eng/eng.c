@@ -13,6 +13,10 @@ int actHeight = 0;
 float CB_WIDTH = 0;
 float CB_HEIGHT = 0;
 
+dyn times;
+dyn deltas;
+dyn speeds;
+
 void cbCallbackSize(GLFWwindow* window, int width, int height) {
     glViewport(0,0,width,height);
     actWidth = width;
@@ -57,6 +61,10 @@ int cbMain(
 
     //glEnable(GL_DEPTH_TEST);
 
+    cbDynArrInit(&times);
+    cbDynArrInit(&deltas);
+    cbDynArrInit(&speeds);
+
     cbDrawSetup();
 
     init();
@@ -80,6 +88,10 @@ int cbMain(
     clean();
 
     cbDrawClean();
+
+    cbDynArrFree(&speeds);
+    cbDynArrFree(&deltas);
+    cbDynArrFree(&times);
 
     glfwDestroyWindow(window);
     glfwTerminate();
