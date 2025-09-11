@@ -13,10 +13,6 @@ int actHeight = 0;
 float CB_WIDTH = 0;
 float CB_HEIGHT = 0;
 
-dyn times;
-dyn deltas;
-dyn speeds;
-
 void cbCallbackSize(GLFWwindow* window, int width, int height) {
     glViewport(0,0,width,height);
     actWidth = width;
@@ -61,20 +57,7 @@ int cbMain(
 
     //glEnable(GL_DEPTH_TEST);
 
-    cbDynArrInit(&times, sizeof(float));
-    cbDynArrInit(&deltas, sizeof(float));
-    cbDynArrInit(&speeds, sizeof(float));
-
-    cbDynArrPushBack(&times, 0);
-    cbDynArrPushBack(&deltas, 0);
-    cbDynArrPushBack(&speeds, 1);
-
-    float time = (float)glfwGetTime();
-    float starttime = time;
-    cbDynArrPushBack(&times, time);
-    cbDynArrPushBack(&deltas, 0);
-    cbDynArrPushBack(&speeds, 1);
-
+    cbInitTimers((float)glfwGetTime());
     cbDrawSetup();
 
     init();
@@ -88,17 +71,7 @@ int cbMain(
         CB_WIDTH = actWidth;
         CB_HEIGHT = actHeight;
 
-        time = (float)glfwGetTime();    
-        *cbDynArrIndex(&speeds, 0) = 1;
-
-        for (int i = 2; i < times.size; ++i) {
-            *cbDynArrIndex(&times, i) += *cbDynArrIndex(&deltas, 0) * (*cbDynArrIndex(&speeds, i));
-            *cbDynArrIndex(&deltas, i) = *cbDynArrIndex(&deltas, 0) * (*cbDynArrIndex(&speeds, i));
-        }
-
-        *cbDynArrIndex(&times, 0) = time - starttime;
-        *cbDynArrIndex(&deltas, 0) = time - (*cbDynArrIndex(&times, 1));
-        *cbDynArrIndex(&times, 1) = *cbDynArrIndex(&times, 0);
+        cbUpdateTimers();
 
         cbResetTransform();
         render();
@@ -110,10 +83,7 @@ int cbMain(
     clean();
 
     cbDrawClean();
-
-    cbDynArrFree(&speeds);
-    cbDynArrFree(&deltas);
-    cbDynArrFree(&times);
+    cbEndTimers();
 
     glfwDestroyWindow(window);
     glfwTerminate();
