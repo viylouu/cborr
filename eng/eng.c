@@ -45,6 +45,10 @@ int cbMain(
     //
 
     glViewport(0,0,width,height);
+
+    // windows moment (:onion:)
+    glfwSetWindowSize(window, width+1,height+1);
+    glfwSetWindowSize(window, width,height);
     
     glfwSwapInterval(1);
 
