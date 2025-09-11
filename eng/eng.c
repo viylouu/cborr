@@ -65,6 +65,16 @@ int cbMain(
     cbDynArrInit(&deltas, sizeof(float));
     cbDynArrInit(&speeds, sizeof(float));
 
+    cbDynArrPushBack(&times, 0);
+    cbDynArrPushBack(&deltas, 0);
+    cbDynArrPushBack(&speeds, 1);
+
+    float time = (float)glfwGetTime();
+    float starttime = time;
+    cbDynArrPushBack(&times, time);
+    cbDynArrPushBack(&deltas, 0);
+    cbDynArrPushBack(&speeds, 1);
+
     cbDrawSetup();
 
     init();
@@ -77,6 +87,18 @@ int cbMain(
 
         CB_WIDTH = actWidth;
         CB_HEIGHT = actHeight;
+
+        time = (float)glfwGetTime();    
+        *cbDynArrIndex(&speeds, 0) = 1;
+
+        for (int i = 2; i < times.size; ++i) {
+            *cbDynArrIndex(&times, i) += *cbDynArrIndex(&deltas, 0) * (*cbDynArrIndex(&speeds, i));
+            *cbDynArrIndex(&deltas, i) = *cbDynArrIndex(&deltas, 0) * (*cbDynArrIndex(&speeds, i));
+        }
+
+        *cbDynArrIndex(&times, 0) = time - starttime;
+        *cbDynArrIndex(&deltas, 0) = time - (*cbDynArrIndex(&times, 1));
+        *cbDynArrIndex(&times, 1) = *cbDynArrIndex(&times, 0);
 
         cbResetTransform();
         render();
