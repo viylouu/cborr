@@ -22,10 +22,10 @@ CBtimer* cbMakeTimer(float offset) {
 void cbDestroyTimer(CBtimer* timer) {
     if (!timer) { printf("cannot destroy a NULL timer!\n"); return; }
 
-    for (size_t i = 0; i < timers.size; ++i) 
-        if ((CBtimer*)cbDynArrIndex(&timers, i) == timer) {
+    for (int i = 0; i < timers.size; ++i)
+        if (cbDynArrIndex(&timers, i) == timer) {
             *(CBtimer*)cbDynArrIndex(&timers, i) = *(CBtimer*)cbDynArrIndex(&timers, timers.size-1);
-            timers.size--;
+            --timers.size;
             break;
         }
 
@@ -35,27 +35,23 @@ void cbDestroyTimer(CBtimer* timer) {
 void cbInitTimers(float time) {
     cbDynArrInit(&timers, sizeof(CBtimer));
 
-    // bro...
-    cbMakeTimer(time);
     cbTime = cbMakeTimer(time);
 }
 
 void cbEndTimers() {
     cbDestroyTimer(cbTime);
-    cbDestroyTimer((CBtimer*)cbDynArrIndex(&timers, 0));
     cbDynArrFree(&timers);
 }
 
 void cbUpdateTimers() {
     float time = (float)glfwGetTime();
 
-    CBtimer* state = (CBtimer*)cbDynArrIndex(&timers, 0);
-    state->delta = time - state->time;
-    state->time = time;
+    cbTime->delta = time - cbTime->time;
+    cbTime->time = time;
 
     for (int i = 1; i < timers.size; ++i) {
         CBtimer* this = (CBtimer*)cbDynArrIndex(&timers, i);
-        this->delta = this->speed * state->delta;
+        this->delta = this->speed * cbTime->delta;
         this->time += this->delta;
     }
 }
