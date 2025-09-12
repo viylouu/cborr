@@ -19,6 +19,6 @@ typedef struct {
     CBtexture* atlas;
 } CBfont;
 
-void cBDrawText2d(CBtexture* tex, char txt[], int fontSize, vec2 pos, CBalignment align);
+void cbDrawText(CBfont* font, const char* text, int len, int fontSize, float x, float y, CBalignment align);
 
 #endif
