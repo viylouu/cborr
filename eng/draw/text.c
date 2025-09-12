@@ -30,7 +30,6 @@ char* loadEpicFile(const char* path, size_t* out_size) {
     return buffer;
 }
 
-
 void cBDrawText2d(CBtexture* tex, char txt[], int fontSize, vec2 pos, CBalignment align){
     char* cft = loadEpicFile("data/eng/font.cft",  0);
     for (int i = 0; txt[i] != '\0'; i++) {
