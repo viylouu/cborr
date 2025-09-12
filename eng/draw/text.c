@@ -1,7 +1,9 @@
 #include "text.h"
-#include "../type/vec.h"
-#include "draw.h"
-#include "../eng.h"
+
+#include "type/vec.h"
+#include "eng.h"
+#include "draw/draw.h"
+
 #include <string.h>
 #include <stdio.h>
 
