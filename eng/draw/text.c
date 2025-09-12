@@ -35,14 +35,10 @@ void cbDrawText2d(CBfont* font, const char* text, int fontSize, float x, float y
     char* cft = loadEpicFile("data/eng/font.cft", 0);
     
     for (int i = 0; text[i] != '\0'; ++i) {
-        char cur = text[i];
-        int pos;
-        for (int j = 0; *font->chars[j] != '\0'; ++j)
-            if (*font->chars[j] == cur) pos = j;
-        
-        int x = pos % (*font->atlas)->width;
-        int y = floor(pos / (float)(*font->atlas)->height);
+        char cur = text[i];        
+        int x = cur % (*font->atlas).width;
+        int y = floor(cur / (float)(*font->atlas).height);
 
-        cbTex(*font->tex, x + i * 50, y, 5 * 10, 8 * 10, x * (*font->charW), y * (*font->charH), (*font->charW), (*font->charH));
+        cbTex(font->atlas, x + i * 50, y, 5 * 10, 8 * 10, x * font->charW, y * font->charH, font->charW, font->charH);
     }
 }
