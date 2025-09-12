@@ -15,10 +15,9 @@ typedef struct {
     int charH;
     char* chars;
     int* charGaps;
-    int charAmt;
     CBtexture* atlas;
 } CBfont;
 
-void cbDrawText(CBfont* font, const char* text, int len, int fontSize, float x, float y, CBalignment align);
+void cbDrawText(CBfont* font, const char* text, int fontSize, float x, float y);
 
 #endif
