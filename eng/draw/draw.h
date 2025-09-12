@@ -103,7 +103,7 @@
 //
 //
 
-
+#include "draw/tex.h"
 
 extern float fov;
 extern const int maxBatchSize;
