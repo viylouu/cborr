@@ -1,7 +1,7 @@
 #ifndef PHYS_H
 #define PHYS_H
 
-#include "type/vec.h"
+#include "../type/vec.h"
 
 extern const float GRAV;
 //Why are you here im pretty sure you know what pi is, its 3.14159

@@ -4,7 +4,11 @@
 #include "draw/tex.h"
 #include "draw/shad.h"
 #include "draw/draw.h"
+#include "draw/text.h"
 #include "type/mat.h"
+#include "type/vec.h"
+#include "type/dyn.h"
+#include "phys/phys.h"
 //#include "gl/gl.h"
 
 extern int actWidth;
