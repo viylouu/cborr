@@ -9,6 +9,7 @@
 #include "type/vec.h"
 #include "type/dyn.h"
 #include "phys/phys.h"
+#include "type/timer.h"
 //#include "gl/gl.h"
 
 extern int actWidth;
@@ -16,6 +17,10 @@ extern int actHeight;
 
 extern float CB_WIDTH;
 extern float CB_HEIGHT;
+
+extern dyn times;
+extern dyn deltas;
+extern dyn speeds;
 
 typedef void (*func)(void);
 

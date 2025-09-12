@@ -45,6 +45,10 @@ int cbMain(
     //
 
     glViewport(0,0,width,height);
+
+    // windows moment (:onion:)
+    glfwSetWindowSize(window, width+1,height+1);
+    glfwSetWindowSize(window, width,height);
     
     glfwSwapInterval(1);
 
@@ -53,6 +57,7 @@ int cbMain(
 
     //glEnable(GL_DEPTH_TEST);
 
+    cbInitTimers((float)glfwGetTime());
     cbDrawSetup();
 
     init();
@@ -66,6 +71,8 @@ int cbMain(
         CB_WIDTH = actWidth;
         CB_HEIGHT = actHeight;
 
+        cbUpdateTimers();
+
         cbResetTransform();
         render();
         cbDrawFlush();
@@ -76,6 +83,7 @@ int cbMain(
     clean();
 
     cbDrawClean();
+    cbEndTimers();
 
     glfwDestroyWindow(window);
     glfwTerminate();

@@ -1,4 +1,7 @@
+#include "type/timer.h"
 #include <eng.h>
+
+#include <stdio.h>
 
 void init(void) {}
 void update(void) { }
