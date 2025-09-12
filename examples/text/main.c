@@ -17,11 +17,11 @@ void init(void) {
 void update(void) { }
 
 void render(void) {
-    cbFClear(.2f, .3f, .4f);
+    cbFClear(0);
 
-    cbTint(255,0,0);
+    cbTint(255,255,255);
     //cbTex(tex, 0,0,CB_WIDTH,CB_HEIGHT);
-    cbDrawText(font, "epic gamer!!!!!", 12, 0,0);
+    cbDrawText(font, "ITS A BEE!!!!!!", 6, 0,0);
 }
 
 void clean(void) {

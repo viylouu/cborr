@@ -25,8 +25,8 @@ void cbUnloadFont(CBfont* font) {
 void cbDrawText(CBfont* font, const char* text, int fontSize, float x, float y) {
     for (int i = 0; text[i] != '\0'; ++i) {
         char cur = text[i];        
-        int x = cur % (*font->atlas).width;
-        int y = floor(cur / (float)(*font->atlas).height);
+        int sx = cur >> 4;
+        int sy = cur & 0xF;
 
         cbTex(
             font->atlas, 
@@ -34,8 +34,8 @@ void cbDrawText(CBfont* font, const char* text, int fontSize, float x, float y) 
             y, 
             font->charW * fontSize, 
             font->charH * fontSize, 
-            x * font->charW, 
-            y * font->charH, 
+            sx * font->charW, 
+            sy * font->charH, 
             font->charW, 
             font->charH
         );
