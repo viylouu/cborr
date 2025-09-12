@@ -8,34 +8,10 @@ vec2 pos1 = {0,0};
 vec2 pos2 = {5,9};
 
 
-CBtexture* tex;
-char* cft;
-
-char* loadFuckYouFile(const char* path, size_t* out_size) {
-    FILE* f = fopen(path, "rb");
-    if (!f) return 0;
-
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    rewind(f);
-
-    char* buffer = malloc(size + 1);
-    if (!buffer) {
-        fclose(f);
-        return 0;
-    }
-
-    fread(buffer, 1, size, f);
-    fclose(f);
-
-    buffer[size] = '\0';
-    if (out_size) *out_size = size;
-
-    return buffer;
-}
+CBfont* font;
 
 void init(void) {
-    tex = cbLoadTexture("data/eng/font.png");
+    font = cbLoadFont("data/eng/font.png", 5,8);
 }
 
 void update(void) { }
@@ -45,11 +21,11 @@ void render(void) {
 
     cbTint(255,0,0);
     //cbTex(tex, 0,0,CB_WIDTH,CB_HEIGHT);
-    cBDrawText2d(tex,"epic", 12, pos1, CB_LEFT);
+    cbDrawText(font, "epic gamer!!!!!", 12, 0,0);
 }
 
 void clean(void) {
-    cbUnloadTexture(tex);
+    cbUnloadFont(font);
 }
 
 

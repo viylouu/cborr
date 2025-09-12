@@ -48,7 +48,7 @@ FILES=()
 for dir in "${SRC_DIRS[@]}"; do
     while IFS= read -r file; do
         FILES+=("$file")
-    done < <(find "$dir" -name "*.c")
+    done < <(find "$dir" -name "*.c" ! -path "*grug*")
 done
 
 if [ "$WINDOWS_BUILD" = true ]; then
