@@ -1,9 +1,12 @@
 #include <eng.h>
+#include <stdio.h>
 
 CBtexture* tex;
+char* cft;
 
 void init(void) {
     tex = cbLoadTexture("examples/texture/tex.png");
+    cft = loadEpicFile("data/eng/font.cft",  0);
 }
 
 void update(void) { }
