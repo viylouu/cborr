@@ -1,4 +1,5 @@
 -Iinclude
+-Iinclude/grug
 -Isrc
 -Ieng
 -std=c99
