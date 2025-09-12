@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 char* loadEpicFile(const char* path, size_t* out_size) {
     FILE* f = fopen(path, "rb");
@@ -30,10 +31,18 @@ char* loadEpicFile(const char* path, size_t* out_size) {
     return buffer;
 }
 
-void cBDrawText2d(CBtexture* tex, char txt[], int fontSize, vec2 pos, CBalignment align){
-    char* cft = loadEpicFile("data/eng/font.cft",  0);
-    for (int i = 0; txt[i] != '\0'; i++) {
-        //printf("%c\n", (cft["e"]));
-        cbTex(tex, pos.x + i * 50, pos.y, 5 * 10, 8 * 10, (cft[txt[i]]) * 5,0, 5,8);
+void cbDrawText2d(CBfont* font, const char* text, int fontSize, float x, float y) {
+    char* cft = loadEpicFile("data/eng/font.cft", 0);
+    
+    for (int i = 0; text[i] != '\0'; ++i) {
+        char cur = text[i];
+        int pos;
+        for (int j = 0; *font->chars[j] != '\0'; ++j)
+            if (*font->chars[j] == cur) pos = j;
+        
+        int x = pos % (*font->atlas)->width;
+        int y = floor(pos / (float)(*font->atlas)->height);
+
+        cbTex(*font->tex, x + i * 50, y, 5 * 10, 8 * 10, x * (*font->charW), y * (*font->charH), (*font->charW), (*font->charH));
     }
 }
