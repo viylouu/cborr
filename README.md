@@ -30,7 +30,7 @@ to use cborr, first make your repo or whatever
 if you make a repo, make a github submodule using cborr by doing `git submodule add https://github.com/viylouu/cborr`  
 otherwise, clone the repo somewhere, and add the files into a cborr folder  
 
-if you want to use the build.sh script provided for you, copy that into the root directory  
+if you want to use the `build.sh` script provided for you, copy that into the root directory  
 please copy the provided `compile_flags.txt` aswell, as that will allow for error handling in the ide  
 
 # building
