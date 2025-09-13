@@ -3,7 +3,7 @@
 mkdir -p build
 
 COMPILER="gcc"
-CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Icborr -I. -D GLFW_BUILD_X11=1 -D GLFW_BUILD_WAYLAND=0"
+CFLAGS="-std=c99 -Wall -Wextra -Icborr/include -Iinclude -Icborr -I. -D GLFW_BUILD_X11=1 -D GLFW_BUILD_WAYLAND=0"
 SRC_DIRS=(".")
 
 TEST_BUILD=false
@@ -39,9 +39,14 @@ else
 fi
 
 if [ -n "$EXAMPLE" ]; then
-    SRC_DIRS+=("examples/$EXAMPLE")
+    # assume we are in cborr
+    SRC_DIRS=("." "examples/$EXAMPLE")
 else
-    SRC_DIRS+=("src")
+    if [ -f "./eng.c" ]; then
+        SRC_DIRS=(".")
+    else 
+        SRC_DIRS=("cborr" "src")
+    fi
 fi
 
 FILES=()
@@ -59,6 +64,8 @@ if [ "$WINDOWS_BUILD" = true ]; then
         ./build/out.exe
     fi
 else
+    echo "${FILES[@]}"
     "$COMPILER" "${FILES[@]}" $CFLAGS -o build/out && ./build/out
 fi
+
 
