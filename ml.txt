@@ -1,0 +1,85 @@
+// ml -> modding language
+// scroll down to the bottom if you thought ml stood for machine learning
+
+
+
+
+
+Person struct {
+    name   string
+    age    int
+    height float
+    fat_ass_index float
+}
+
+init void() {
+    println("hello world")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// why tf would i do machine learning you imbicile
