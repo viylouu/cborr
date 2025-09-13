@@ -12,6 +12,7 @@ typedef struct {
 
 void cbDynArrInit(dyn* arr, size_t type);
 void cbDynArrPushBack(dyn* arr, void* val);
+void cbDynArrRemoveUnordered(dyn* arr, size_t idx);
 void* cbDynArrIndex(dyn* arr, size_t idx);
 void cbDynArrFree(dyn* arr);
 void cbDynArrClear(dyn* arr);

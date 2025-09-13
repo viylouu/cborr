@@ -28,6 +28,18 @@ void cbDynArrPushBack(dyn* arr, void* val) {
     arr->size++;
 }
 
+void cbDynArrRemoveUnordered(dyn* arr, size_t idx) {
+    if (arr->size == 0 || idx >= arr->size) return;
+    if (idx == arr->size-1) { arr->size -= 1; return; }
+
+    memcpy(
+        cbDynArrIndex(arr, idx),
+        cbDynArrIndex(arr, arr->size-1),
+        arr->sizeofElem
+        );
+    arr->size -= 1;
+}
+
 void* cbDynArrIndex(dyn* arr, size_t idx) {
     if (idx >= arr->size) {
         printf("index out of bounds! %d >= %d\n", (int)idx, (int)arr->size);
