@@ -1,10 +1,10 @@
 #ifndef ENG_H
 #define ENG_H
 
-#include "draw/tex.h"
+#include "type/tex.h"
 #include "draw/shad.h"
 #include "draw/draw.h"
-#include "draw/text.h"
+#include "type/text.h"
 #include "type/mat.h"
 #include "type/vec.h"
 #include "type/dyn.h"

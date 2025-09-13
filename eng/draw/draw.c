@@ -4,7 +4,7 @@
 #include "type/dyn.h"
 
 #include "draw/shad.h"
-#include "draw/tex.h"
+#include "type/tex.h"
 
 #include <glad/glad.h>
 #include <stdint.h>

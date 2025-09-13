@@ -102,7 +102,7 @@
 //
 //
 
-#include "tex.h"
+#include "type/tex.h"
 
 extern float fov;
 extern const int maxBatchSize;

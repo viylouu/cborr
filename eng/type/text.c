@@ -1,6 +1,6 @@
 #include "text.h"
 
-#include "draw/tex.h"
+#include "type/tex.h"
 #include "type/vec.h"
 #include "eng.h"
 #include "draw/draw.h"
