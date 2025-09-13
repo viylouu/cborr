@@ -3,8 +3,8 @@
 mkdir -p build
 
 COMPILER="gcc"
-CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Ieng -D GLFW_BUILD_X11=1 -D GLFW_BUILD_WAYLAND=0"
-SRC_DIRS=("eng" "include")
+CFLAGS="-std=c99 -Wall -Wextra -Iinclude -Icborr -I. -D GLFW_BUILD_X11=1 -D GLFW_BUILD_WAYLAND=0"
+SRC_DIRS=(".")
 
 TEST_BUILD=false
 WINDOWS_BUILD=false
@@ -48,7 +48,7 @@ FILES=()
 for dir in "${SRC_DIRS[@]}"; do
     while IFS= read -r file; do
         FILES+=("$file")
-    done < <(find "$dir" -name "*.c")
+    done < <(find "$dir" -name "*.c" ! -path "*/examples/*")
 done
 
 if [ "$WINDOWS_BUILD" = true ]; then

@@ -1,6 +1,6 @@
 -Iinclude
--Iinclude/grug
 -Isrc
--Ieng
+-I.
+-Icborr
 -std=c99
 -DGLFW_INCLUDE_NONE

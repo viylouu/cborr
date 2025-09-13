@@ -10,7 +10,7 @@
 #include "type/dyn.h"
 #include "phys/phys.h"
 #include "type/timer.h"
-//#include "gl/gl.h"
+#include "gl/gl.h"
 
 extern int actWidth;
 extern int actHeight;

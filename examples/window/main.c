@@ -1,10 +1,7 @@
-#include "type/timer.h"
 #include <eng.h>
 
-#include <stdio.h>
-
 void init(void) {}
-void update(void) { }
+void update(void) {}
 
 void render(void) {
     cbFClear(.2f, .3f, .4f);
