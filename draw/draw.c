@@ -221,6 +221,11 @@ void cbResetTransform(void) {
 }
 
 
+//void cbRenderToTexture(CBtexture* tex, void (*fn)(void)) {
+    
+//}
+
+
 void IMPL_cbTranslate(float x, float y, float z) {
     mat4 temp;
     cbMatTranslate(&temp, x,y,z);

@@ -11,7 +11,8 @@
 #include <stdint.h>
 
 void cbUnloadTexture(CBtexture* tex) {
-    glDeleteTextures(1, &(*tex).id);
+    glDeleteTextures(1, &tex->id);
+    glDeleteBuffers(1, &tex->fbo);
     free(tex);
 }
 
@@ -21,6 +22,10 @@ CBtexture* cbLoadFromData(uint8_t* data, size_t size) {
     int32_t c;
     uint8_t* texdata = stbi_load_from_memory(data, size, &w,&h,&c, 4);
     if (!texdata) { printf("failed to load texture!"); return 0; }
+
+    uint32_t fbo;
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
     uint32_t id;
     glGenTextures(1, &id);
@@ -35,6 +40,10 @@ CBtexture* cbLoadFromData(uint8_t* data, size_t size) {
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id, 0);
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) { printf("framebuffer is not complete!"); return 0; }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
     stbi_image_free(texdata);
 
     CBtexture* tex = malloc(sizeof(CBtexture));
@@ -42,6 +51,7 @@ CBtexture* cbLoadFromData(uint8_t* data, size_t size) {
     tex->width = w;
     tex->height = h;
     tex->filter = CB_NEAREST;
+    tex->fbo = fbo;
 
     return tex;
 }

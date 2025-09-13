@@ -10,6 +10,7 @@ typedef enum {
 
 typedef struct {
     unsigned int id;
+    unsigned int fbo;
     int width;
     int height;
     CBfilter filter;
