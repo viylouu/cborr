@@ -31,7 +31,7 @@ void clean(void) {
 
 int main(){
     return cbMain(
-        "basic window!!!!",
+        "text",
         800,600,
         init,
         update,

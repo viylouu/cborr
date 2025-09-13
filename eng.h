@@ -11,6 +11,7 @@
 #include "phys/phys.h"
 #include "type/timer.h"
 #include "gl/gl.h"
+#include "input/input.h"
 
 extern int actWidth;
 extern int actHeight;
