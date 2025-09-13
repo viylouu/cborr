@@ -21,7 +21,7 @@ void render(void) {
 
     cbTint(255,255,255);
     //cbTex(tex, 0,0,CB_WIDTH,CB_HEIGHT);
-    cbDrawText(font, "ITS A BEE!!!!!!", 6, 0,0);
+    cbText(font, "ITS A BEE!!!!!!", 6, 0,0);
 }
 
 void clean(void) {
@@ -31,7 +31,7 @@ void clean(void) {
 
 int main(){
     return cbMain(
-        "basic window!!!!",
+        "text",
         800,600,
         init,
         update,

@@ -18,6 +18,6 @@ typedef struct {
 
 CBfont* cbLoadFont(const char* file, int charW, int charH);
 void cbUnloadFont(CBfont* font);
-void cbDrawText(CBfont* font, const char* text, int fontSize, float x, float y);
+void cbText(CBfont* font, const char* text, int fontSize, float x, float y);
 
 #endif

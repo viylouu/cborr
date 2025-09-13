@@ -65,6 +65,7 @@ int cbMain(
     //window our feachers
     while(!glfwWindowShouldClose(window)) {
         glfwPollEvents();
+        cbPollInput(window);
 
         update();
 

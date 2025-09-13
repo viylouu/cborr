@@ -12,6 +12,9 @@ typedef struct {
     float z;
 } vec3;
 
+#define vec2(x,y) (vec2){x,y}
+#define vec3(x,y,z) (vec3){x,y,z}
+
 static inline vec2 cbVec2Add(vec2 a, vec2 b)  { return (vec2){ a.x+b.x, a.y+b.y }; }
 static inline vec3 cbVec3Add(vec3 a, vec3 b)  { return (vec3){ a.x+b.x, a.y+b.y, a.z+b.z}; }
 static inline vec2 cbVec2Mult(vec2 a, vec2 b) { return (vec2){ a.x*b.x, a.y*b.y }; }

@@ -24,7 +24,7 @@ void clean(void) {
 
 int main(void) {
     return cbMain(
-        "basic window!!!!",
+        "texture",
         800,600,
         init,
         update,
