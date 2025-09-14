@@ -67,13 +67,14 @@ int cbMain(
         glfwPollEvents();
         cbPollInput(window);
 
-        update();
-
         CB_WIDTH = actWidth;
         CB_HEIGHT = actHeight;
 
         cbUpdateTimers();
 
+        update();        
+
+        cbFTint(1);
         cbResetTransform();
         render();
         cbDrawFlush();
