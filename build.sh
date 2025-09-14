@@ -24,15 +24,15 @@ for arg in "$@"; do
     fi
 done
 
-if [[ "$OSTYPE" == "linux-gnu" ]] && [[ "$TEST_BUILD" == "true" ]]; then
-    COMPILER="tcc"
-    CFLAGS+=" -DSTBI_NO_SIMD"
+if [[ "$TEST_BUILD" == "true" ]]; then
+    COMPILER="zig cc"
+    CFLAGS+=" -O0 -DSTBI_NO_SIMD"
 else
     CFLAGS+=" -O2 -flto"
 fi
 
 if [ "$WINDOWS_BUILD" = true ]; then
-    COMPILER="x86_64-w64-mingw32-gcc"
+    [[ "$TEST_BUILD" == "false" ]] && COMPILER="x86_64-w64-mingw32-gcc"
     CFLAGS+=" -Linclude/LINK/glfw -lglfw3 -lm -lopengl32 -lgdi32 "
 else
     CFLAGS+=" -lglfw -ldl -lm -lGL" #-LEGL -LX11
@@ -64,8 +64,7 @@ if [ "$WINDOWS_BUILD" = true ]; then
         ./build/out.exe
     fi
 else
-    echo "${FILES[@]}"
-    "$COMPILER" "${FILES[@]}" $CFLAGS -o build/out && ./build/out
+    echo -e "COMPILING: ${FILES[@]} \n"
+    eval "$COMPILER" "${FILES[@]}" $CFLAGS -o build/out && ./build/out
 fi
-
 

@@ -3,7 +3,11 @@ hello this is cborr, aka borr c, aka syborr, aka sybau
 please do not call it anything other than cborr or else you get the :onion:  
 also please do not use anything other than c99 or else you get the :onion: aswell  
 
+# requirements
+compilers: `mingw-gcc, gcc, zig`
+graphics: `glfw, opengl 3.3`
 
+# license
 this project is licensed under the [WTFNMFPL](https://github.com/adversary-org/wtfnmf/tree/master)
 ```
     DO WHAT THE FUCK YOU WANT TO BUT IT'S NOT MY FAULT PUBLIC LICENSE
@@ -35,14 +39,16 @@ if you want to use the `build.sh` script provided for you, copy that into the ro
 please copy the provided `compile_flags.txt` aswell, as that will allow for error handling in the ide  
 
 # building
-this project uses the tiny c compiler (aka. tcc) for test builds  
+this project uses the `zig c compiler` (aka. `zig cc`) for test builds  
 this means it builds very fast when needed (muy bueno)  
-it also uses gcc for full builds  
+> test builds also pass -O0  
+
+it also uses `gcc` (aka, `gcc`) for full builds  
 this means it runs very fast when needed (muy bueno)  
-you will need to have these in your path to run the build.sh  
+you will need to have these in your path to run the `build.sh`  
 
 ## test builds
-test builds use tcc, and are therefore less optimized, but a faster build  
+test builds use `zig cc -O0`, and are therefore less optimized, but a faster build  
 you can do a test build like this:  
 - run `./build.sh -t`  
 this will build and run the src/main.c file  
@@ -56,7 +62,7 @@ if you want to test an example, see this:
 - run './build.sh EXAMPLE_NAME -t'  
 
 ## regular builds
-regular builds use gcc, and are therefore more optimized, but a slower build  
+regular builds use `gcc -O2`, and are therefore more optimized, but a slower build  
 you can do a regular build like this:  
 - run `./build.sh`  
 this will build and run the src/main.c file  
@@ -68,4 +74,12 @@ if you want to build and example, see this:
 ## windows builds
 windows builds are simple  
 same syntax, just add the -w flag! (only nesseccary for linux -> windows cross compilation)  
+
+> the following paragraph only happens on linux now :)  
+
 they do however force you to use gcc because silly windows :onion:  
+
+> new behaviour  
+
+the windows compilation happens automatically if you're on windows, but its only required as a flag for cross compilation  
+test builds now work properly as `tcc` has been replaced with the `zig cc -O0`
