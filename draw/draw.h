@@ -25,6 +25,11 @@
 //  this also gets called when swapping buffer types
 //  and also in some specific cases (see draw.c IMPL_name)
 //
+// cbDrawToTexture(CBtexture* tex, void func(void))
+//  calls the func given and renders that to a given texture's framebuffer
+//  thats it
+//  its not that hard
+//
 //// USER USED (OVERLOADS)
 //
 /// MATRICES
@@ -54,6 +59,7 @@
 //  this is only because of the limited overload system used
 //  batch instances all have unique color values
 //  color format is in [0,1]
+//  this gets called at the start of each frame in the form of "cbFTint(1);"
 //
 // cbTint
 //      ( float r, float g, float b, float a )
@@ -112,6 +118,7 @@ void cbDrawUpdate(int width, int height);
 void cbDrawClean(void);
 void cbResetTransform(void);
 void cbDrawFlush(void);
+void cbDrawToTexture(CBtexture* tex, void (*fn)(void));
 
 // ------- funcs
 void IMPL_cbTranslate(float x, float y, float z);

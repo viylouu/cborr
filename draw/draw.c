@@ -121,6 +121,8 @@ void cbDrawSetup(void) {
     glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, bufs.tex.bo);
 }
 
+int lastUpdateWidth;
+int lastUpdateHeight;
 void cbDrawUpdate(int width, int height) {
     if (fov < 179) {
         const float aspect = (float)width / (float)height;
@@ -140,6 +142,9 @@ void cbDrawUpdate(int width, int height) {
     }
 
     cbMatOrtho(&proj2d, 0,width,height,0, -1,1);
+
+    lastUpdateWidth = width;
+    lastUpdateHeight = height;
 }
 
 void cbDrawClean(void) {
@@ -221,9 +226,29 @@ void cbResetTransform(void) {
 }
 
 
-//void cbRenderToTexture(CBtexture* tex, void (*fn)(void)) {
-    
-//}
+void cbDrawToTexture(CBtexture* tex, void (*fn)(void)) {
+    cbDrawFlush();
+
+    int32_t prevFbo;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFbo);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, tex->fbo);
+
+    int32_t viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    glViewport(0,0,tex->width,tex->height);
+    int luw = lastUpdateWidth, luh = lastUpdateHeight;
+    cbDrawUpdate(tex->width,tex->height);
+
+    fn();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, prevFbo);
+
+    glViewport(viewport[0],viewport[1],viewport[2],viewport[3]);
+
+    cbDrawUpdate(luw,luh);
+}
 
 
 void IMPL_cbTranslate(float x, float y, float z) {
