@@ -12,8 +12,8 @@
 CBfont* cbLoadFont(const char* file) {
     CBfont* fnt = malloc(sizeof(CBfont));
     fnt->atlas = cbLoadTexture(file);
-    fnt->charW = fnt->atlas->width/256;
-    fnt->charH = fnt->atlas->height/256;
+    fnt->charW = fnt->atlas->width/16;
+    fnt->charH = fnt->atlas->height/16;
 
     return fnt;
 }
