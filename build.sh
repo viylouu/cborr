@@ -26,7 +26,7 @@ done
 
 if [[ "$TEST_BUILD" == "true" ]]; then
     COMPILER="zig cc"
-    CFLAGS+=" -O0 -DSTBI_NO_SIMD"
+    CFLAGS+=" -O0 -g -DSTBI_NO_SIMD"
 else
     CFLAGS+=" -O2 -flto"
 fi
