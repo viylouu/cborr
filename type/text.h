@@ -16,7 +16,7 @@ typedef struct {
     CBtexture* atlas;
 } CBfont;
 
-CBfont* cbLoadFont(const char* file, int charW, int charH);
+CBfont* cbLoadFont(const char* file);
 void cbUnloadFont(CBfont* font);
 void cbText(CBfont* font, const char* text, int fontSize, float x, float y);
 

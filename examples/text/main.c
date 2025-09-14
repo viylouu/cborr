@@ -11,7 +11,7 @@ vec2 pos2 = {5,9};
 CBfont* font;
 
 void init(void) {
-    font = cbLoadFont("data/eng/font.png", 5,8);
+    font = cbLoadFont("data/eng/font.png");
 }
 
 void update(void) { }

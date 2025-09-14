@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <math.h>
 
-CBfont* cbLoadFont(const char* file, int charW, int charH) {
+CBfont* cbLoadFont(const char* file) {
     CBfont* fnt = malloc(sizeof(CBfont));
-    fnt->charW = charW;
-    fnt->charH = charH;
     fnt->atlas = cbLoadTexture(file);
+    fnt->charW = fnt->atlas->width/256;
+    fnt->charH = fnt->atlas->height/256;
 
     return fnt;
 }
