@@ -16,6 +16,38 @@ void cbUnloadTexture(CBtexture* tex) {
     free(tex);
 }
 
+CBtexture* cbCreateTexture(int width, int height) {
+    uint32_t fbo;
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    uint32_t id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width,height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id, 0);
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) { printf("framebuffer is not complete!"); return 0; }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    CBtexture* tex = malloc(sizeof(CBtexture));
+    tex->id = id;
+    tex->width = width;
+    tex->height = height;
+    tex->filter = CB_NEAREST;
+    tex->fbo = fbo;
+
+    return tex;
+}
+
 CBtexture* cbLoadFromData(uint8_t* data, size_t size) {
     int32_t w;
     int32_t h;

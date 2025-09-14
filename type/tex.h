@@ -18,6 +18,7 @@ typedef struct {
 
 
 void cbUnloadTexture(CBtexture* tex);
+CBtexture* cbCreateTexture(int width, int height);
 CBtexture* cbLoadFromData(unsigned char* data, size_t size);
 CBtexture* cbLoadTexture(const char* path);
 
