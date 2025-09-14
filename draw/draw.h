@@ -128,16 +128,17 @@ void cbDrawFlush(void);
     int32_t prevFbo; \
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFbo); \
 \
-    glBindFramebuffer(GL_FRAMEBUFFER, tex->fbo); \
+    glBindFramebuffer(GL_FRAMEBUFFER, (tex)->fbo); \
 \
     int32_t viewport[4]; \
     glGetIntegerv(GL_VIEWPORT, viewport); \
 \
-    glViewport(0,0,tex->width,tex->height); \
+    glViewport(0,0,(tex)->width,(tex)->height); \
     int luw = lastUpdateWidth, luh = lastUpdateHeight; \
-    cbDrawUpdate(tex->width,tex->height); \
+    cbDrawUpdate((tex)->width,(tex)->height); \
 \
     body; \
+    cbDrawFlush(); \
 \
     glBindFramebuffer(GL_FRAMEBUFFER, prevFbo); \
 \
