@@ -113,6 +113,9 @@
 extern float fov;
 extern const int maxBatchSize;
 
+extern int lastUpdateWidth;
+extern int lastUpdateHeight;
+
 void cbDrawSetup(void);
 void cbDrawUpdate(int width, int height);
 void cbDrawClean(void);
