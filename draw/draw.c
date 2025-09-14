@@ -226,7 +226,7 @@ void cbResetTransform(void) {
 }
 
 
-void cbDrawToTexture(CBtexture* tex, void (*fn)(void)) {
+/*void cbDrawToTexture(CBtexture* tex, void (*fn)(void)) {
     cbDrawFlush();
 
     int32_t prevFbo;
@@ -248,7 +248,7 @@ void cbDrawToTexture(CBtexture* tex, void (*fn)(void)) {
     glViewport(viewport[0],viewport[1],viewport[2],viewport[3]);
 
     cbDrawUpdate(luw,luh);
-}
+}*/
 
 
 void IMPL_cbTranslate(float x, float y, float z) {

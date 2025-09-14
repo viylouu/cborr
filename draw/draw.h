@@ -118,7 +118,31 @@ void cbDrawUpdate(int width, int height);
 void cbDrawClean(void);
 void cbResetTransform(void);
 void cbDrawFlush(void);
-void cbDrawToTexture(CBtexture* tex, void (*fn)(void));
+
+#define cbDrawToTexture(tex, body) do { \
+    cbDrawFlush(); \
+\
+    int32_t prevFbo; \
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevFbo); \
+\
+    glBindFramebuffer(GL_FRAMEBUFFER, tex->fbo); \
+\
+    int32_t viewport[4]; \
+    glGetIntegerv(GL_VIEWPORT, viewport); \
+\
+    glViewport(0,0,tex->width,tex->height); \
+    int luw = lastUpdateWidth, luh = lastUpdateHeight; \
+    cbDrawUpdate(tex->width,tex->height); \
+\
+    body; \
+\
+    glBindFramebuffer(GL_FRAMEBUFFER, prevFbo); \
+\
+    glViewport(viewport[0],viewport[1],viewport[2],viewport[3]); \
+\
+    cbDrawUpdate(luw,luh); \
+} while(0)
+
 
 // ------- funcs
 void IMPL_cbTranslate(float x, float y, float z);
